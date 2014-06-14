@@ -1,0 +1,22 @@
+mineman - 1.0 Notes
+
+
+--GUI in Tkinter
+	--Shows installed minecraft launchers
+	--Shows minecraft datafiles available
+	--Edit button to change entries
+	--Menu at the top
+		--All normal functions
+		--backup options
+			--Opens a seperate gui for backing up minecraft instances.
+	--On the bottom is play and exit buttons
+	--Delete launcher function
+	--Delete data folder function
+
+
+--Backend
+	--File selectors
+	--backup system
+	--scanning for minecraft currently installed
+	--maybe put a cfg file in each minecraft data folder for reference
+	--preferences managed by config parser
