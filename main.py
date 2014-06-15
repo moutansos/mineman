@@ -10,6 +10,13 @@ import os
 import sys
 from Tkinter import *
 
+
+osName="Windows"
+homedir=os.path.expanduser("~")
+print homedir
+datadir=homedir+"\\AppData\\Roaming\\mineman"
+print datadir
+
 class M (object):
 	def __init__(self):
 		pass
@@ -21,6 +28,36 @@ class M (object):
 		print "Exiting program...."
 		sys.exit()
 
+	def rmDataDir(self):
+		print "Removing data directory..."
+		os.remove(datadir)
+
+	def makeDataDir(self):
+		print "Creating a new data directory..."
+		os.makedirs(datadir)
+		os.makedirs(datadir+"\\launchers")
+		os.makedirs(datadir+"\\dataslots")
+		os.makedirs(datadir+"\\dataslots\slot1")
+		os.makedirs(datadir+"\\dataslots\slot2")
+		os.makedirs(datadir+"\\dataslots\slot3")
+		os.makedirs(datadir+"\\dataslots\slot4")
+		os.makedirs(datadir+"\\dataslots\slot5")
+		print "Created sucessfuly.\n"
+
+	def startupChecks(self):
+		if osName == "Windows":
+			if not os.path.exists(datadir):
+				print "Data directory not found."
+				self.makeDataDir()
+			else:
+				pass
+		else:
+			print "Error. No data directory could be found due to unknown OS. Data directory being written in program folder."
+
+
+
+
+
 m=M()
 
 def exit2():
@@ -29,7 +66,9 @@ def exit2():
 def mainprog():
 	print "Starting MineMan 1.0....."
 	print ""
-	print "Currently this program is a work in progress. Some features may not be implimented yet."
+	m.startupChecks()
+	print ""
+	print "Currently this program is a work in progress. \nSome features may not be implimented yet."
 	mainwin=Tk()
 	mainwin.title("MineMan 1.0")
 	mainwin.geometry("500x300")
