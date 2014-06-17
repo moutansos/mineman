@@ -8,3 +8,6 @@ I finaly got tired of backing up game data and changing launchers so here is an 
 
 
 This program is released as public domain. The code can be used for whatever purpose needed.
+
+If you'd like to donate to the development please use this bitcoin address:
+1PL8inVvnyiAhrGCzGADpqZZifZbDuRJmX
