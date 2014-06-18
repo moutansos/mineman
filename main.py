@@ -66,6 +66,13 @@ class M (object):
 				pass
 		else:
 			print "Error. No data directory could be found due to unknown OS. Data directory being written in program folder."
+		mainCfg=ConfigParser.SafeConfigParser()
+		mainCfg.read(datadir+"\\main.conf")
+
+		if mainCfg.get("startup", "debug")=="yes":
+			debug1=1
+		else:
+			debug1=0
 
 
 
