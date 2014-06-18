@@ -9,6 +9,10 @@
 import os
 import sys
 from Tkinter import *
+from tkFileDialog import *
+import tkMessageBox
+import shutil
+import ConfigParser
 
 
 osName="Windows"
@@ -21,8 +25,14 @@ class M (object):
 	def __init__(self):
 		pass
 
-	def addLauncher(self):
+	def empty(self):
+		print "Unimplimented option."
 		pass
+
+	def addLauncher(self):
+		launchertoadd=""
+		launchertoadd = askopenfilename()
+		print launchertoadd
 
 	def exitProg(self):
 		print "Exiting program...."
@@ -30,7 +40,9 @@ class M (object):
 
 	def rmDataDir(self):
 		print "Removing data directory..."
-		os.remove(datadir)
+		#os.remove(datadir)
+		shutil.rmtree(datadir)
+		print "Directory removed."
 
 	def makeDataDir(self):
 		print "Creating a new data directory..."
@@ -42,6 +54,7 @@ class M (object):
 		os.makedirs(datadir+"\\dataslots\slot3")
 		os.makedirs(datadir+"\\dataslots\slot4")
 		os.makedirs(datadir+"\\dataslots\slot5")
+		shutil.copyfile("default.conf", datadir+"\\main.conf")
 		print "Created sucessfuly.\n"
 
 	def startupChecks(self):
@@ -73,6 +86,27 @@ def mainprog():
 	mainwin.title("MineMan 1.0")
 	mainwin.geometry("500x300")
 
+
+# Menu Funcitons ======================================
+	menubar=Menu(mainwin)
+
+	filemenu=Menu(menubar, tearoff=0)
+	filemenu.add_command(label="Add a Launcher", command=m.addLauncher)
+	filemenu.add_command(label="Save Config", command=m.empty)
+	filemenu.add_separator()
+	filemenu.add_command(label="Exit", command=m.exitProg)
+	menubar.add_cascade(label="File", menu=filemenu)
+
+	optionsmenu=Menu(menubar, tearoff=0)
+	optionsmenu.add_command(label="Delete Data", command=m.rmDataDir)
+	menubar.add_cascade(label="Options", menu=optionsmenu)
+
+	helpmenu=Menu(menubar, tearoff=0)
+	helpmenu.add_command(label="About", command=m.empty)
+	menubar.add_cascade(label="Help", menu=helpmenu)
+
+# =====================================================
+
 	controlFrame = Frame(mainwin)
 	startLauncherBtn1 = Button(controlFrame, text="Start the Launcher")
 	exitMineManBtn1 = Button(controlFrame, text="Exit", command = m.exitProg)
@@ -93,7 +127,7 @@ def mainprog():
 	dataFrame.pack(side=TOP, fill=BOTH, padx=5, pady=5)
 	dataLabel.pack(side=LEFT, pady=5)
 
-
+	mainwin.config(menu=menubar)
 	mainwin.mainloop()
 
 mainprog()
