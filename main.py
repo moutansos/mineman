@@ -31,8 +31,21 @@ class M (object):
 
 	def addLauncher(self):
 		launchertoadd=""
+		lslot="1"
 		launchertoadd = askopenfilename()
 		print launchertoadd
+		shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher"+lslot+".jar")
+		
+	def askLauncherSlot():
+		askLS=Tk()
+		slotNum=IntVar()
+		Radiobutton(askLS, text="Slot1", variable=slotNum, value="Slot1").pack()
+		Radiobutton(askLS, text="Slot2", variable=slotNum, value="Slot2").pack()
+		Radiobutton(askLS, text="Slot3", variable=slotNum, value="Slot3").pack()
+		Radiobutton(askLS, text="Slot4", variable=slotNum, value="Slot4").pack()
+		Radiobutton(askLS, text="Slot5", variable=slotNum, value="Slot5").pack()
+		askLS.mainloop()
+		return slotNum
 
 	def exitProg(self):
 		print "Exiting program...."
@@ -74,7 +87,25 @@ class M (object):
 		else:
 			debug1=0
 
+		try:
+			launcher1=mainCfg("launchers", "slot1")
+			launcher1Name=mainCfg("lauchers", "slot1Name")
+			launcher2=mainCfg("launchers", "slot2")
+			launcher2Name=mainCfg("launchers", "slot2Name")
+			launcher3=mainCfg("launchers", "slot3")
+			launcher3Name=mainCfg("lauchers", "slot3Name")
+			launcher4=mainCfg("launchers", "slot4")
+			launcher4Name=mainCfg("launchers", "slot4Name")
+			launcher5=mainCfg("launchers", "slot5")
+			launcer5Name=mainCfg("launchers", "slot5Name")
 
+			data1=mainCfg("data", "slot1Name")
+			data2=mainCfg("data", "slot2Name")
+			data3=mainCfg("data", "slot3Name")
+			data4=mainCfg("data", "slot4Name")
+			data5=mainCfg("data", "slot5Name")
+		except:
+			print "One or more config values was not found. Program will probably crash. Delete datafolder and start over."
 
 
 
