@@ -104,7 +104,15 @@ def mainprog():
 	filemenu.add_command(label="Exit", command=m.exitProg)
 	menubar.add_cascade(label="File", menu=filemenu)
 
+	backupmenu=Menu(menubar, tearoff=0)
+	backupmenu.add_command(label="Backup One Slot", command=m.empty)
+	backupmenu.add_command(label="Backup All Slots to Zip File", command=m.empty)
+	backupmenu.add_command(label="Save Launcher From List", command=m.empty)
+	menubar.add_cascade(label="Backup", menu=backupmenu)
+
 	optionsmenu=Menu(menubar, tearoff=0)
+	optionsmenu.add_command(label="Edit Launchers", command=m.empty)
+	optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
 	optionsmenu.add_command(label="Delete Data", command=m.rmDataDir)
 	menubar.add_cascade(label="Options", menu=optionsmenu)
 

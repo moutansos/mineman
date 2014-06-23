@@ -5,18 +5,22 @@ mineman - 1.0 Notes
 	--Shows installed minecraft launchers
 	--Shows minecraft datafiles available
 	--Edit button to change entries
-	--Menu at the top
+	*-Menu at the top
 		--All normal functions
 		--backup options
 			--Opens a seperate gui for backing up minecraft instances.
 	--On the bottom is play and exit buttons
 	--Delete launcher function
-	--Delete data folder function
+	**Delete data folder function
+		--Add warning box for delete data function
 
 
 --Backend
 	--File selectors
 	--backup system
+	--Backup the entire system directory to a zip file
 	--scanning for minecraft currently installed
 	--maybe put a cfg file in each minecraft data folder for reference
 	--preferences managed by config parser
+	--Find version of minecraft in slot folder
+
