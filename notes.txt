@@ -23,4 +23,5 @@ mineman - 1.0 Notes
 	--maybe put a cfg file in each minecraft data folder for reference
 	--preferences managed by config parser
 	--Find version of minecraft in slot folder
+	--Add better variable passing for addLauncherSlot or specilize
 

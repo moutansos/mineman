@@ -17,9 +17,9 @@ import ConfigParser
 
 osName="Windows"
 homedir=os.path.expanduser("~")
-print homedir
 datadir=homedir+"\\AppData\\Roaming\\mineman"
-print datadir
+mainCfg=ConfigParser.RawConfigParser()
+mainCfg.read(datadir+"\\main.conf")
 
 class M (object):
 	def __init__(self):
@@ -31,25 +31,68 @@ class M (object):
 
 	def addLauncher(self):
 		launchertoadd=""
-		lslot="1"
 		launchertoadd = askopenfilename()
-		print launchertoadd
-		shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher"+lslot+".jar")
+		if launchertoadd=="":
+			pass
+		else:
+			launcherSlot=self.askLauncherSlot(nameslot=True)
+
+			## This method of getting values has to change
+			launSlotSplit=launcherSlot.split()
+			launcherSlot1=launSlotSplit[0]
+			launcherName=launSlotSplit[1]
+
+
+			print launchertoadd
+			shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher-"+launcherSlot1+".jar")
+			mainCfg.set("launchers", launcherSlot, datadir+"\\launchers\\launcher-"+launcherSlot1+".jar")
+			mainCfg.set("launchers", launcherSlot+"Name", launcherName)
+			with open(datadir+"\\main.conf", 'wb') as configfile:
+				mainCfg.write(datadir+"\\main.conf")
+
+			mainCfg.write(datadir+"\\main.conf")
+			print "Launcher in "+launcherSlot1+" is named: "+launcherName
+
 		
-	def askLauncherSlot():
+
+		
+	def askLauncherSlot(self, nameslot):
+		def exitALW():
+			if nameslot==True:
+				nameforslot=GetSlotEntry.get()
+				if nameforslot=="":
+					print "Not a valid slot name."
+				else:
+					askLS.destroy()
+			else:
+				nameforslot="<<null>>"
+				askLS.destroy()
+
 		askLS=Tk()
+		askLS.title("Select Slot")
 		slotNum=IntVar()
-		Radiobutton(askLS, text="Slot1", variable=slotNum, value="Slot1").pack()
-		Radiobutton(askLS, text="Slot2", variable=slotNum, value="Slot2").pack()
-		Radiobutton(askLS, text="Slot3", variable=slotNum, value="Slot3").pack()
-		Radiobutton(askLS, text="Slot4", variable=slotNum, value="Slot4").pack()
-		Radiobutton(askLS, text="Slot5", variable=slotNum, value="Slot5").pack()
+		Radiobutton(askLS, text="Slot1 ", variable=slotNum, value="slot1").pack()
+		Radiobutton(askLS, text="Slot2 ", variable=slotNum, value="slot2").pack()
+		Radiobutton(askLS, text="Slot3 ", variable=slotNum, value="slot3").pack()
+		Radiobutton(askLS, text="Slot4 ", variable=slotNum, value="slot4").pack()
+		Radiobutton(askLS, text="Slot5 ", variable=slotNum, value="slot5").pack()
+		if nameslot==True:
+			Label(askLS, text="Please name the slot below: (All one word)").pack
+			GetSlotEntry=Entry(askLS, text="")
+			GetSlotEntry.pack(expand=1, padx=10, pady=10)
+		else:
+			pass
+		
+		Button(askLS, text="OK", command=exitALW).pack()
 		askLS.mainloop()
-		return slotNum
+		if (nameslot==True):
+			return slotNum+" "+nameforslot
+		else:
+			return slotNum
 
 	def exitProg(self):
 		print "Exiting program...."
-		sys.exit()
+		mainwin.destroy()
 
 	def rmDataDir(self):
 		print "Removing data directory..."
@@ -79,33 +122,45 @@ class M (object):
 				pass
 		else:
 			print "Error. No data directory could be found due to unknown OS. Data directory being written in program folder."
-		mainCfg=ConfigParser.SafeConfigParser()
-		mainCfg.read(datadir+"\\main.conf")
 
+
+		print mainCfg.get("startup", "version")
 		if mainCfg.get("startup", "debug")=="yes":
 			debug1=1
 		else:
 			debug1=0
 
-		try:
-			launcher1=mainCfg("launchers", "slot1")
-			launcher1Name=mainCfg("lauchers", "slot1Name")
-			launcher2=mainCfg("launchers", "slot2")
-			launcher2Name=mainCfg("launchers", "slot2Name")
-			launcher3=mainCfg("launchers", "slot3")
-			launcher3Name=mainCfg("lauchers", "slot3Name")
-			launcher4=mainCfg("launchers", "slot4")
-			launcher4Name=mainCfg("launchers", "slot4Name")
-			launcher5=mainCfg("launchers", "slot5")
-			launcer5Name=mainCfg("launchers", "slot5Name")
+		#try:
+		print "\n Loading launchers from config..."
+		launcher1=mainCfg.get("launchers", "slot1")
+		launcher1Name=mainCfg.get("launchers", "slot1Name")
+		print "Launcher1 Loaded"
+		launcher2=mainCfg.get("launchers", "slot2")
+		launcher2Name=mainCfg.get("launchers", "slot2Name")
+		print "Launcher2 Loaded"
+		launcher3=mainCfg.get("launchers", "slot3")
+		launcher3Name=mainCfg.get("launchers", "slot3Name")
+		print "Launcher3 Loaded"
+		launcher4=mainCfg.get("launchers", "slot4")
+		launcher4Name=mainCfg.get("launchers", "slot4Name")
+		print "Launcher4 Loaded"
+		launcher5=mainCfg.get("launchers", "slot5")
+		launcer5Name=mainCfg.get("launchers", "slot5Name")
+		print "Launcher5 Loaded"
+		print " All launchers loaded sucessfuly.\n\n Proceeding to load data slots."
 
-			data1=mainCfg("data", "slot1Name")
-			data2=mainCfg("data", "slot2Name")
-			data3=mainCfg("data", "slot3Name")
-			data4=mainCfg("data", "slot4Name")
-			data5=mainCfg("data", "slot5Name")
-		except:
-			print "One or more config values was not found. Program will probably crash. Delete datafolder and start over."
+		data1=mainCfg.get("data", "slot1Name")
+		print "Dataslot1 Loaded."
+		data2=mainCfg.get("data", "slot2Name")
+		print "Dataslot2 Loaded."
+		data3=mainCfg.get("data", "slot3Name")
+		print "Dataslot3 Loaded."
+		data4=mainCfg.get("data", "slot4Name")
+		print "DataSlot4 Loaded."
+		data5=mainCfg.get("data", "slot5Name")
+		print "Dataslot5 Loaded.\n All dataslots sucessfuly loaded.\n\n"
+		#except:
+		#	print "One or more config values was not found. Program will probably crash. Delete datafolder and start over."
 
 
 
@@ -177,3 +232,5 @@ def mainprog():
 	mainwin.mainloop()
 
 mainprog()
+with open(datadir+"\\main.conf", 'w') as configfile:
+	mainCfg.write(datadir+"\\main.conf")
