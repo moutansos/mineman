@@ -53,27 +53,48 @@ class M (object):
 					askLS.destroy()
 					print "Destroyed."
 					print "Proceeding to save values."
-					print slotNum
-					print nameforslot
-					print launchertoadd
-					shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher-"+slotNum+".jar")
-					mainCfg.set("launchers", launcherSlot, datadir+"\\launchers\\launcher-"+launcherSlot1+".jar")
-					mainCfg.set("launchers", launcherSlot+"Name", nameforslot)
-					with open(datadir+"\\main.conf", 'wb') as configfile:
-						mainCfg.write(datadir+"\\main.conf")
+					print slotNum.get()
+					slotNumLong="<empty>"
+					#My long round about way to name the slot variables.
+					if slotNum.get()==1:
+						slotNumLong="slot1"
+					elif slotNum.get()==2:
+						slotNumLong="slot2"
+					elif slotNum.get()==3:
+						slotNumLong="slot3"
+					elif slotNum.get()==4:
+						slotNumLong="slot4"
+					elif slotNum.get()==5:
+						slotNumLong="slot5"
+					else:
+						print "ERROR: Slot number not recognized."
 
-					mainCfg.write(datadir+"\\main.conf")
-					print "Launcher in "+launcherSlot1+" is named: "+launcherName
+					#Error checking. Failsafe.
+					if slotNumLong=="<empty>":
+						print "ERROR: Somehow the slotNumLong variable was not set correctly."
+					else:
+						print "Slot name provided: "+nameforslot
+						print "Launcher file to add: "+launchertoadd
+						print "Copying launcher to directory."
+						shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher-"+slotNumLong+".jar")
+						print "Launcher sucessfuly copied.\nSetting config keys."
+						mainCfg.set("launchers", slotNumLong, datadir+"\\launchers\\launcher-"+slotNumLong+".jar")
+						mainCfg.set("launchers", slotNumLong+"Name", nameforslot)
+						print "Keys set.\n Writing keys to file."
+						with open(datadir+"\\main.conf", 'wb') as configfile:
+							mainCfg.write(datadir+"\\main.conf")
+						print "Keys are written."
+						print "Launcher in "+slotNumLong+" is named: "+nameforslot
 
-			print "Creating launcher slot selectory."
+			print "Creating launcher slot selector."
 			askLS=Tk()
 			askLS.title("Select Slot")
 			slotNum=IntVar()
-			Radiobutton(askLS, text="Slot1 ", variable=slotNum, value="slot1").pack()
-			Radiobutton(askLS, text="Slot2 ", variable=slotNum, value="slot2").pack()
-			Radiobutton(askLS, text="Slot3 ", variable=slotNum, value="slot3").pack()
-			Radiobutton(askLS, text="Slot4 ", variable=slotNum, value="slot4").pack()
-			Radiobutton(askLS, text="Slot5 ", variable=slotNum, value="slot5").pack()
+			Radiobutton(askLS, text="Slot1 ", variable=slotNum, value="1").pack()
+			Radiobutton(askLS, text="Slot2 ", variable=slotNum, value="2").pack()
+			Radiobutton(askLS, text="Slot3 ", variable=slotNum, value="3").pack()
+			Radiobutton(askLS, text="Slot4 ", variable=slotNum, value="4").pack()
+			Radiobutton(askLS, text="Slot5 ", variable=slotNum, value="5").pack()
 			Label(askLS, text="Please name the slot below: (All one word)").pack()
 			GetSlotEntry=Entry(askLS)
 			GetSlotEntry.pack(expand=1, padx=10, pady=10)
@@ -83,6 +104,8 @@ class M (object):
 
 
 
+	def backupSingleSlot(self):
+		print "Backup single slot started."
 
 
 	def exitProg(self):
@@ -186,9 +209,12 @@ def mainprog():
 	menubar.add_cascade(label="File", menu=filemenu)
 
 	backupmenu=Menu(menubar, tearoff=0)
-	backupmenu.add_command(label="Backup One Slot", command=m.empty)
-	backupmenu.add_command(label="Backup All Slots to Zip File", command=m.empty)
-	backupmenu.add_command(label="Save Launcher From List", command=m.empty)
+	backupmenu.add_command(label="Backup one slot to file", command=m.empty)
+	backupmenu.add_command(label="Backup all slots to file", command=m.empty)
+	backupmenu.add_command(label="Save launcher From list", command=m.empty)
+	backupmenu.add_separator()
+	backupmenu.add_command(label="Import one slot", command=m.empty)
+	backupmenu.add_command(label="Import all slots", command=m.empty)
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
