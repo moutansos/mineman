@@ -14,7 +14,6 @@ import tkMessageBox
 import shutil
 import ConfigParser
 
-
 osName="Windows"
 homedir=os.path.expanduser("~")
 datadir=homedir+"\\AppData\\Roaming\\mineman"
@@ -29,9 +28,10 @@ class M (object):
 		print "Unimplimented option."
 		pass
 
-
+	## GUI RELEVANT FUNCTIONS =====================================
 
 	def addLauncher(self):
+		## This function is under construction. Not working at the moment.
 		launchertoadd=""
 		launchertoadd = askopenfilename()
 		print launchertoadd
@@ -90,19 +90,59 @@ class M (object):
 			askLS=Tk()
 			askLS.title("Select Slot")
 			slotNum=IntVar()
-			Radiobutton(askLS, text="Slot1 ", variable=slotNum, value="1").pack()
-			Radiobutton(askLS, text="Slot2 ", variable=slotNum, value="2").pack()
-			Radiobutton(askLS, text="Slot3 ", variable=slotNum, value="3").pack()
-			Radiobutton(askLS, text="Slot4 ", variable=slotNum, value="4").pack()
-			Radiobutton(askLS, text="Slot5 ", variable=slotNum, value="5").pack()
+			print "Before defined slotNum: "
+			print slotNum
+			Radiobutton(askLS, text="Slot1 ", variable=slotNum, value=1).pack()
+			Radiobutton(askLS, text="Slot2 ", variable=slotNum, value=2).pack()
+			Radiobutton(askLS, text="Slot3 ", variable=slotNum, value=3).pack()
+			Radiobutton(askLS, text="Slot4 ", variable=slotNum, value=4).pack()
+			Radiobutton(askLS, text="Slot5 ", variable=slotNum, value=5).pack()
 			Label(askLS, text="Please name the slot below: (All one word)").pack()
 			GetSlotEntry=Entry(askLS)
 			GetSlotEntry.pack(expand=1, padx=10, pady=10)
 			Button(askLS, text="OK", command=exitALW).pack(padx=10, pady=10)
 			askLS.mainloop()
 
+	def addData(self):
+		## This is the add data function that is not working. Under construction.
+		print "Adding a new data slot."
+		def exitADF():
+			pass
+
+		addDataWin=Tk()
+		addDataWin.title("Add a data slot.")
 
 
+	## BACKEND FUNCTIONS ====================================
+
+
+	def addLauncherSlotSpec1(self):
+		self.addLauncherSlotSpec("1")
+	def addLauncherSlotSpec2(self):
+		self.addLauncherSlotSpec("2")
+	def addLauncherSlotSpec3(self):
+		self.addLauncherSlotSpec("3")
+	def addLauncherSlotSpec4(self):
+		self.addLauncherSlotSpec("4")
+	def addLauncherSlotSpec5(self):
+		self.addLauncherSlotSpec("5")
+
+	## ----- SLOT SPECIFIC FUNCITONS.
+	def addLauncherSlotSpec(self, launchnum):
+		print "Adding launcher to Slot "+launchnum
+		launtoadd=askopenfilename()
+		if launtoadd=="":
+			print "ERROR: No file specified. Aborting launcher add."
+		else:
+			print "Launcher file specified: "+launtoadd
+			lauchnumLong="slot"+launchnum
+			
+
+
+
+
+
+	## END SLOT SPECIFIC FUNCTIONS.
 
 	def backupSingleSlot(self):
 		print "Backup single slot started."
@@ -130,6 +170,8 @@ class M (object):
 		os.makedirs(datadir+"\\dataslots\slot5")
 		shutil.copyfile("default.conf", datadir+"\\main.conf")
 		print "Created sucessfuly.\n"
+
+	#STARTUP FUNCTIONS ==========================================================
 
 	def startupChecks(self):
 		if osName == "Windows":
@@ -202,24 +244,75 @@ def mainprog():
 	menubar=Menu(mainwin)
 
 	filemenu=Menu(menubar, tearoff=0)
-	filemenu.add_command(label="Add a Launcher", command=m.addLauncher)
+	filemenu.add_command(label="Add a Launcher", command=m.empty)
 	filemenu.add_command(label="Save Config", command=m.empty)
 	filemenu.add_separator()
 	filemenu.add_command(label="Exit", command=mainwin.destroy)
 	menubar.add_cascade(label="File", menu=filemenu)
 
+	# Launcher menu++++++++++++
+	launchermenu=Menu(menubar, tearoff=0)
+
+	launcherslot1cascade=Menu(launchermenu, tearoff=0)
+	launcherslot1cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec1)
+	launchermenu.add_cascade(label="Slot 1", menu=launcherslot1cascade)
+
+	launcherslot2cascade=Menu(launchermenu, tearoff=0)
+	launcherslot2cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec2)
+	launchermenu.add_cascade(label="Slot 2", menu=launcherslot2cascade)
+
+	launcherslot3cascade=Menu(launchermenu, tearoff=0)
+	launcherslot3cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec3)
+	launchermenu.add_cascade(label="Slot 3", menu=launcherslot3cascade)
+
+	launcherslot4cascade=Menu(launchermenu, tearoff=0)
+	launcherslot4cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec4)
+	launchermenu.add_cascade(label="Slot 4", menu=launcherslot4cascade)
+
+	launcherslot5cascade=Menu(launchermenu, tearoff=0)
+	launcherslot5cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec5)
+	launchermenu.add_cascade(label="Slot 5", menu=launcherslot5cascade)
+
+	menubar.add_cascade(label="Launchers", menu=launchermenu)
+
+	# Data menu+++++++++++++++
+	datamenu=Menu(menubar, tearoff=0)
+
+	dataslot1cascade=Menu(datamenu, tearoff=0)
+	dataslot1cascade.add_command(label="Add Data Slot", command=m.empty)
+	datamenu.add_cascade(label="Slot 1", menu=dataslot1cascade)
+
+	dataslot2cascade=Menu(datamenu, tearoff=0)
+	dataslot2cascade.add_command(label="Add Data Slot", command=m.empty)
+	datamenu.add_cascade(label="Slot 2", menu=dataslot2cascade)
+
+	dataslot3cascade=Menu(datamenu, tearoff=0)
+	dataslot3cascade.add_command(label="Add Data Slot", command=m.empty)
+	datamenu.add_cascade(label="Slot 3", menu=dataslot3cascade)
+
+	dataslot4cascade=Menu(datamenu, tearoff=0)
+	dataslot4cascade.add_command(label="Add Data Slot", command=m.empty)
+	datamenu.add_cascade(label="Slot 4", menu=dataslot4cascade)
+
+	dataslot5cascade=Menu(datamenu, tearoff=0)
+	dataslot5cascade.add_command(label="Add Data Slot", command=m.empty)
+	datamenu.add_cascade(label="Slot 5", menu=dataslot5cascade)
+
+	menubar.add_cascade(label="Data Slots", menu=datamenu)
+
+	#Backup menu++++++++++++++++(Some menu options are being replaced.)
 	backupmenu=Menu(menubar, tearoff=0)
-	backupmenu.add_command(label="Backup one slot to file", command=m.empty)
+	#backupmenu.add_command(label="Backup one slot to file", command=m.empty)
 	backupmenu.add_command(label="Backup all slots to file", command=m.empty)
-	backupmenu.add_command(label="Save launcher From list", command=m.empty)
+	#backupmenu.add_command(label="Save launcher From list", command=m.empty)
 	backupmenu.add_separator()
-	backupmenu.add_command(label="Import one slot", command=m.empty)
+	#backupmenu.add_command(label="Import one slot", command=m.empty)
 	backupmenu.add_command(label="Import all slots", command=m.empty)
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
 	optionsmenu.add_command(label="Edit Launchers", command=m.empty)
-	optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
+	#optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
 	optionsmenu.add_command(label="Delete Data", command=m.rmDataDir)
 	menubar.add_cascade(label="Options", menu=optionsmenu)
 
