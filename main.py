@@ -135,7 +135,32 @@ class M (object):
 			print "ERROR: No file specified. Aborting launcher add."
 		else:
 			print "Launcher file specified: "+launtoadd
-			lauchnumLong="slot"+launchnum
+			LaunName=""
+			def getNameFromDiag():
+				LaunName=GNDmainEntry.get()
+				getNameDiag.destroy()
+
+				print "Launcher Name: "+LaunName
+				if LaunName=="":
+					print "ERROR: No name was specified"
+				else:
+					lauchnumLong="slot"+launchnum
+					mainCfg.set("launchers", lauchnumLong, launtoadd)
+					mainCfg.set("launchers", lauchnumLong+"Name", LaunName)
+					print "Saving changes to config file."
+					with open(datadir+"\\main.conf", 'wb') as configfile:
+						mainCfg.write(configfile)
+
+			getNameDiag=Tk()
+			getNameDiag.title("Input Launcher Name")
+			GNDmainLabel=Label(getNameDiag, text="Please input a launcher name: ")
+			GNDmainEntry=Entry(getNameDiag, text="")
+			GNDmainButton=Button(getNameDiag, text="Ok", command=getNameFromDiag)
+			GNDmainLabel.pack()
+			GNDmainEntry.pack()
+			GNDmainButton.pack()
+			getNameDiag.mainloop()
+
 			
 
 

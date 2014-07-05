@@ -16,10 +16,9 @@ mineman - 1.0 Notes
 
 
 --Backend
-	--File selectors
 	--backup system
 	--Backup the entire system directory to a zip file
-	--scanning for minecraft currently installed
+	--scanning for minecraft that is currently installed
 	--maybe put a cfg file in each minecraft data folder for reference
 	--preferences managed by config parser
 	--Find version of minecraft in slot folder
