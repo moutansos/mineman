@@ -28,89 +28,8 @@ class M (object):
 		print "Unimplimented option."
 		pass
 
-	## GUI RELEVANT FUNCTIONS =====================================
 
-	def addLauncher(self):
-		## This function is under construction. Not working at the moment.
-		launchertoadd=""
-		launchertoadd = askopenfilename()
-		print launchertoadd
-		if launchertoadd=="":
-			pass
-		else:
-			print "Proceeding to ask the user what launcher to use."
-			#launcherSlot=self.askLauncherSlot(nameslot=True)
 
-			def exitALW():
-				print "Closing window and getting values."
-				print "Getting Name from entry."
-				nameforslot=GetSlotEntry.get()
-				print nameforslot
-				if nameforslot=="":
-					print "Not a valid slot name."
-				else:
-					print "Destroying slot selector window."
-					askLS.destroy()
-					print "Destroyed."
-					print "Proceeding to save values."
-					print slotNum.get()
-					slotNumLong="<empty>"
-					#My long round about way to name the slot variables.
-					if slotNum.get()==1:
-						slotNumLong="slot1"
-					elif slotNum.get()==2:
-						slotNumLong="slot2"
-					elif slotNum.get()==3:
-						slotNumLong="slot3"
-					elif slotNum.get()==4:
-						slotNumLong="slot4"
-					elif slotNum.get()==5:
-						slotNumLong="slot5"
-					else:
-						print "ERROR: Slot number not recognized."
-
-					#Error checking. Failsafe.
-					if slotNumLong=="<empty>":
-						print "ERROR: Somehow the slotNumLong variable was not set correctly."
-					else:
-						print "Slot name provided: "+nameforslot
-						print "Launcher file to add: "+launchertoadd
-						print "Copying launcher to directory."
-						shutil.copyfile(launchertoadd, datadir+"\\launchers\\launcher-"+slotNumLong+".jar")
-						print "Launcher sucessfuly copied.\nSetting config keys."
-						mainCfg.set("launchers", slotNumLong, datadir+"\\launchers\\launcher-"+slotNumLong+".jar")
-						mainCfg.set("launchers", slotNumLong+"Name", nameforslot)
-						print "Keys set.\n Writing keys to file."
-						with open(datadir+"\\main.conf", 'wb') as configfile:
-							mainCfg.write(datadir+"\\main.conf")
-						print "Keys are written."
-						print "Launcher in "+slotNumLong+" is named: "+nameforslot
-
-			print "Creating launcher slot selector."
-			askLS=Tk()
-			askLS.title("Select Slot")
-			slotNum=IntVar()
-			print "Before defined slotNum: "
-			print slotNum
-			Radiobutton(askLS, text="Slot1 ", variable=slotNum, value=1).pack()
-			Radiobutton(askLS, text="Slot2 ", variable=slotNum, value=2).pack()
-			Radiobutton(askLS, text="Slot3 ", variable=slotNum, value=3).pack()
-			Radiobutton(askLS, text="Slot4 ", variable=slotNum, value=4).pack()
-			Radiobutton(askLS, text="Slot5 ", variable=slotNum, value=5).pack()
-			Label(askLS, text="Please name the slot below: (All one word)").pack()
-			GetSlotEntry=Entry(askLS)
-			GetSlotEntry.pack(expand=1, padx=10, pady=10)
-			Button(askLS, text="OK", command=exitALW).pack(padx=10, pady=10)
-			askLS.mainloop()
-
-	def addData(self):
-		## This is the add data function that is not working. Under construction.
-		print "Adding a new data slot."
-		def exitADF():
-			pass
-
-		addDataWin=Tk()
-		addDataWin.title("Add a data slot.")
 
 
 	## BACKEND FUNCTIONS ====================================
@@ -127,6 +46,18 @@ class M (object):
 	def addLauncherSlotSpec5(self):
 		self.addLauncherSlotSpec("5")
 
+
+	def addDataSlotSpec1(self):
+		self.addDataSlotSpec("1")
+	def addDataSlotSpec2(self):
+		self.addDataSlotSpec("2")
+	def addDataSlotSpec3(self):
+		self.addDataSlotSpec("3")
+	def addDataSlotSpec4(self):
+		self.addDataSlotSpec("4")
+	def addDataSlotSpec5(self):
+		self.addDataSlotSpec("5")
+
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
 		print "Adding launcher to Slot "+launchnum
@@ -138,13 +69,17 @@ class M (object):
 			LaunName=""
 			def getNameFromDiag():
 				LaunName=GNDmainEntry.get()
-				getNameDiag.destroy()
+				
 
 				print "Launcher Name: "+LaunName
 				if LaunName=="":
 					print "ERROR: No name was specified"
 				else:
+					getNameDiag.destroy()
 					lauchnumLong="slot"+launchnum
+
+					#File Transfer Funcitons Go Here
+
 					mainCfg.set("launchers", lauchnumLong, launtoadd)
 					mainCfg.set("launchers", lauchnumLong+"Name", LaunName)
 					print "Saving changes to config file."
@@ -161,7 +96,35 @@ class M (object):
 			GNDmainButton.pack()
 			getNameDiag.mainloop()
 
-			
+	def addDataSlotSpec(self, datanum):
+		## This is the add data function that is not working. Under construction.
+		print "Adding a new data slot."
+		def getSlotFromDiag():
+			DataName=ADSmainEntry.get()
+			if DataName=="":
+				print "ERROR: No name was specified."
+			else:
+				addDataWin.destroy()
+				slotNumber="slot"+datanum+"Name"
+
+				#Folder and config file generation takes place here.
+
+				mainCfg.set("data", slotNumber, DataName)
+				print "Saving changes to config file."
+				with open(datadir+"\\main.conf", 'wb') as configfile:
+					mainCfg.write(configfile)
+
+
+		addDataWin=Tk()
+		addDataWin.title("Specify a name for this slot.")
+		ADSmainLabel=Label(addDataWin, text="Please specify a name for this data slot: ")
+		ADSmainEntry=Entry(addDataWin)
+		ADSmainButton=Button(addDataWin, text="Ok", command=getSlotFromDiag)
+		ADSmainLabel.pack()
+		ADSmainEntry.pack()
+		ADSmainButton.pack()
+		addDataWin.mainloop()
+		
 
 
 
@@ -304,23 +267,23 @@ def mainprog():
 	datamenu=Menu(menubar, tearoff=0)
 
 	dataslot1cascade=Menu(datamenu, tearoff=0)
-	dataslot1cascade.add_command(label="Add Data Slot", command=m.empty)
+	dataslot1cascade.add_command(label="Add Data Slot", command=addDataSlotSpec1)
 	datamenu.add_cascade(label="Slot 1", menu=dataslot1cascade)
 
 	dataslot2cascade=Menu(datamenu, tearoff=0)
-	dataslot2cascade.add_command(label="Add Data Slot", command=m.empty)
+	dataslot2cascade.add_command(label="Add Data Slot", command=addDataSlotSpec2)
 	datamenu.add_cascade(label="Slot 2", menu=dataslot2cascade)
 
 	dataslot3cascade=Menu(datamenu, tearoff=0)
-	dataslot3cascade.add_command(label="Add Data Slot", command=m.empty)
+	dataslot3cascade.add_command(label="Add Data Slot", command=addDataSlotSpec3)
 	datamenu.add_cascade(label="Slot 3", menu=dataslot3cascade)
 
 	dataslot4cascade=Menu(datamenu, tearoff=0)
-	dataslot4cascade.add_command(label="Add Data Slot", command=m.empty)
+	dataslot4cascade.add_command(label="Add Data Slot", command=addDataSlotSpec4)
 	datamenu.add_cascade(label="Slot 4", menu=dataslot4cascade)
 
 	dataslot5cascade=Menu(datamenu, tearoff=0)
-	dataslot5cascade.add_command(label="Add Data Slot", command=m.empty)
+	dataslot5cascade.add_command(label="Add Data Slot", command=addDataSlotSpec5)
 	datamenu.add_cascade(label="Slot 5", menu=dataslot5cascade)
 
 	menubar.add_cascade(label="Data Slots", menu=datamenu)
