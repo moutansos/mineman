@@ -336,9 +336,17 @@ def mainprog():
 
 	launcherFrame= Frame(mainwin)
 	launcherLabel = Label(launcherFrame, text="Launchers available:")
+	LaunVar=IntVar()
+	Laun1=Radiobutton(launcherFrame, text="Launcher 1 Slot: ", variable=LaunVar, value=1)
+	Laun2=Radiobutton(launcherFrame, text="Launcher 2 Slot: ", variable=LaunVar, value=2)
+	Laun3=Radiobutton(launcherFrame, text="Launcher 3 Slot: ", variable=LaunVar, value=3)
+	Laun4=Radiobutton(launcherFrame, text="Launcher 4 Slot: ", variable=LaunVar, value=4)
+	Laun5=Radiobutton(launcherFrame, text="Launcher 5 Slot: ", variable=LaunVar, value=5)
 
 	dataFrame = Frame(mainwin)
 	dataLabel= Label(dataFrame, text="Data folders available: ")
+
+
 
 	controlFrame.pack(side=BOTTOM, fill=X, padx=5, pady=5)
 	startLauncherBtn1.pack(side=RIGHT, padx=5)
@@ -346,6 +354,11 @@ def mainprog():
 
 	launcherFrame.pack(side=TOP, fill=BOTH, padx=5, pady=5)
 	launcherLabel.pack(side=LEFT, pady=5)
+	Laun1.pack(padx=10, pady=2)
+	Laun2.pack(padx=10, pady=2)
+	Laun3.pack(padx=10, pady=2)
+	Laun4.pack(padx=10, pady=2)
+	Laun5.pack(padx=10, pady=2)
 
 	dataFrame.pack(side=TOP, fill=BOTH, padx=5, pady=5)
 	dataLabel.pack(side=LEFT, pady=5)
