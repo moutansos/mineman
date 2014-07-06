@@ -54,6 +54,19 @@ class M (object):
 	def addDataSlotSpec5(self):
 		self.addDataSlotSpec("5")
 
+
+
+	def startlauncher(self):
+		print "Starting launcher..."
+		launcherslot=""
+		try:
+			launcherslot=str(LaunVar.get())
+		except:
+			print "ERROR: No launcher specified."
+		print launcherslot
+
+
+
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
 		print "Adding launcher to Slot "+launchnum
@@ -245,7 +258,7 @@ def mainprog():
 	print "Currently this program is a work in progress. \nSome features may not be implimented yet.\n\n"
 	mainwin=Tk()
 	mainwin.title("MineMan 1.0")
-	mainwin.geometry("500x300")
+	mainwin.geometry("500x350")
 
 
 # Menu Funcitons ======================================
@@ -331,12 +344,14 @@ def mainprog():
 # =====================================================
 
 	controlFrame = Frame(mainwin)
-	startLauncherBtn1 = Button(controlFrame, text="Start the Launcher")
-	exitMineManBtn1 = Button(controlFrame, text="Exit", command = mainwin.destroy)
+	startLauncherBtn1 = Button(controlFrame, text="Start the Launcher", command=m.startlauncher)
+	exitMineManBtn1 = Button(controlFrame, text="Exit", command = mainwin.destroy)	
 
 	launcherFrame= Frame(mainwin)
 	launcherLabel = Label(launcherFrame, text="Launchers available:")
+	global LaunVar
 	LaunVar=IntVar()
+	## BEN! WRITE A DEFINITION TO TRY TO PASS THE VALUE SELECTED TO THE LAUNCHERS.
 	Laun1=Radiobutton(launcherFrame, text="Launcher 1 Slot: ", variable=LaunVar, value=1)
 	Laun2=Radiobutton(launcherFrame, text="Launcher 2 Slot: ", variable=LaunVar, value=2)
 	Laun3=Radiobutton(launcherFrame, text="Launcher 3 Slot: ", variable=LaunVar, value=3)
@@ -345,7 +360,13 @@ def mainprog():
 
 	dataFrame = Frame(mainwin)
 	dataLabel= Label(dataFrame, text="Data folders available: ")
-
+	global DataVar
+	DataVar=IntVar()
+	Data1=Radiobutton(dataFrame, text="Data 1 Slot: ", variable=DataVar, value=1)
+	Data2=Radiobutton(dataFrame, text="Data 2 Slot: ", variable=DataVar, value=2)
+	Data3=Radiobutton(dataFrame, text="Data 3 Slot: ", variable=DataVar, value=3)
+	Data4=Radiobutton(dataFrame, text="Data 4 Slot: ", variable=DataVar, value=4)
+	Data5=Radiobutton(dataFrame, text="Data 5 Slot: ", variable=DataVar, value=5)
 
 
 	controlFrame.pack(side=BOTTOM, fill=X, padx=5, pady=5)
@@ -354,20 +375,22 @@ def mainprog():
 
 	launcherFrame.pack(side=TOP, fill=BOTH, padx=5, pady=5)
 	launcherLabel.pack(side=LEFT, pady=5)
-	Laun1.pack(padx=10, pady=2)
-	Laun2.pack(padx=10, pady=2)
-	Laun3.pack(padx=10, pady=2)
-	Laun4.pack(padx=10, pady=2)
-	Laun5.pack(padx=10, pady=2)
+	Laun1.pack(padx=20, pady=2, anchor=W)
+	Laun2.pack(padx=20, pady=2, anchor=W)
+	Laun3.pack(padx=20, pady=2, anchor=W)
+	Laun4.pack(padx=20, pady=2, anchor=W)
+	Laun5.pack(padx=20, pady=2, anchor=W)
 
 	dataFrame.pack(side=TOP, fill=BOTH, padx=5, pady=5)
 	dataLabel.pack(side=LEFT, pady=5)
+	Data1.pack(padx=20, pady=2, anchor=W)
+	Data2.pack(padx=20, pady=2, anchor=W)
+	Data3.pack(padx=20, pady=2, anchor=W)
+	Data4.pack(padx=20, pady=2, anchor=W)
+	Data5.pack(padx=20, pady=2, anchor=W)
 
 	mainwin.config(menu=menubar)
 	mainwin.mainloop()
 
 mainprog()
 print "MineMan has exited."
-# Autosaving seems to make the config file 
-#with open(datadir+"\\main.conf", 'w') as configfile:
-#	mainCfg.write(datadir+"\\main.conf")
