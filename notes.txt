@@ -16,6 +16,7 @@ mineman - 1.0 Notes
 
 
 --Backend
+	--SAFEGAURDS NEED TO BE IMPLEMENTED.
 	--backup system
 	--Backup the entire system directory to a zip file
 	--scanning for minecraft that is currently installed

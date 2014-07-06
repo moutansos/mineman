@@ -28,10 +28,6 @@ class M (object):
 		print "Unimplimented option."
 		pass
 
-
-
-
-
 	## BACKEND FUNCTIONS ====================================
 
 
@@ -92,9 +88,9 @@ class M (object):
 			GNDmainLabel=Label(getNameDiag, text="Please input a launcher name: ")
 			GNDmainEntry=Entry(getNameDiag, text="")
 			GNDmainButton=Button(getNameDiag, text="Ok", command=getNameFromDiag)
-			GNDmainLabel.pack()
-			GNDmainEntry.pack()
-			GNDmainButton.pack()
+			GNDmainLabel.pack(padx=20, pady=10)
+			GNDmainEntry.pack(padx=20, pady=10, fill=X)
+			GNDmainButton.pack(padx=20, pady=10)
 			getNameDiag.mainloop()
 
 	def addDataSlotSpec(self, datanum):
@@ -108,12 +104,36 @@ class M (object):
 				addDataWin.destroy()
 				slotNumber="slot"+datanum+"Name"
 
-				#Folder and config file generation takes place here.
+				def newDataSlot():
+					ANOOmainWin.destroy()
+					os.mkdir(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+					mainCfg.set("data", slotNumber, DataName)
+					print "Saving changes to config file."
+					with open(datadir+"\\main.conf", 'wb') as configfile:
+						mainCfg.write(configfile)
 
-				mainCfg.set("data", slotNumber, DataName)
-				print "Saving changes to config file."
-				with open(datadir+"\\main.conf", 'wb') as configfile:
-					mainCfg.write(configfile)
+				def oldDataSlot():
+					ANOOmainWin.destroy()
+					datatoget=askdirectory()
+					try:
+						shutil.rmtree(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+					except:
+						pass
+					shutil.copytree(datatoget, datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+					mainCfg.set("data", slotNumber, DataName)
+					print "Saving changes to config file."
+					with open(datadir+"\\main.conf", 'wb') as configfile:
+						mainCfg.write(configfile)
+
+				ANOOmainWin=Tk()
+				ANOOmainWin.title("New slot or choose data file?")
+				ANOOmainLabel=Label(ANOOmainWin, text="Is this a new slot or do you have an old minecraft directory for this slot?")
+				ANOOnewBtn=Button(ANOOmainWin, text="New", command=newDataSlot)
+				ANOOoldBtn=Button(ANOOmainWin, text="Old", command=oldDataSlot)
+				ANOOmainLabel.pack(padx=20, pady=10)
+				ANOOnewBtn.pack(padx=20, pady=10)
+				ANOOoldBtn.pack(padx=20, pady=10)
+				ANOOmainWin.mainloop
 
 
 		addDataWin=Tk()
@@ -121,9 +141,9 @@ class M (object):
 		ADSmainLabel=Label(addDataWin, text="Please specify a name for this data slot: ")
 		ADSmainEntry=Entry(addDataWin)
 		ADSmainButton=Button(addDataWin, text="Ok", command=getSlotFromDiag)
-		ADSmainLabel.pack()
-		ADSmainEntry.pack()
-		ADSmainButton.pack()
+		ADSmainLabel.pack(padx=20, pady=10)
+		ADSmainEntry.pack(padx=20, pady=10, fill=X)
+		ADSmainButton.pack(padx=20, pady=10)
 		addDataWin.mainloop()
 		
 
@@ -143,7 +163,6 @@ class M (object):
 
 	def rmDataDir(self):
 		print "Removing data directory..."
-		#os.remove(datadir)
 		shutil.rmtree(datadir)
 		print "Directory removed."
 
