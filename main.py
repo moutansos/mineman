@@ -78,9 +78,10 @@ class M (object):
 					getNameDiag.destroy()
 					lauchnumLong="slot"+launchnum
 
-					#File Transfer Funcitons Go Here
+					print "Copying launcher to launcher directory."
+					shutil.copyfile(launtoadd, datadir+"\\launchers\\slot"+launchnum+".jar")
 
-					mainCfg.set("launchers", lauchnumLong, launtoadd)
+					mainCfg.set("launchers", lauchnumLong, datadir+"\\launchers\\slot"+launchnum+".jar")
 					mainCfg.set("launchers", lauchnumLong+"Name", LaunName)
 					print "Saving changes to config file."
 					with open(datadir+"\\main.conf", 'wb') as configfile:
@@ -267,23 +268,23 @@ def mainprog():
 	datamenu=Menu(menubar, tearoff=0)
 
 	dataslot1cascade=Menu(datamenu, tearoff=0)
-	dataslot1cascade.add_command(label="Add Data Slot", command=addDataSlotSpec1)
+	dataslot1cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec1)
 	datamenu.add_cascade(label="Slot 1", menu=dataslot1cascade)
 
 	dataslot2cascade=Menu(datamenu, tearoff=0)
-	dataslot2cascade.add_command(label="Add Data Slot", command=addDataSlotSpec2)
+	dataslot2cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec2)
 	datamenu.add_cascade(label="Slot 2", menu=dataslot2cascade)
 
 	dataslot3cascade=Menu(datamenu, tearoff=0)
-	dataslot3cascade.add_command(label="Add Data Slot", command=addDataSlotSpec3)
+	dataslot3cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec3)
 	datamenu.add_cascade(label="Slot 3", menu=dataslot3cascade)
 
 	dataslot4cascade=Menu(datamenu, tearoff=0)
-	dataslot4cascade.add_command(label="Add Data Slot", command=addDataSlotSpec4)
+	dataslot4cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec4)
 	datamenu.add_cascade(label="Slot 4", menu=dataslot4cascade)
 
 	dataslot5cascade=Menu(datamenu, tearoff=0)
-	dataslot5cascade.add_command(label="Add Data Slot", command=addDataSlotSpec5)
+	dataslot5cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec5)
 	datamenu.add_cascade(label="Slot 5", menu=dataslot5cascade)
 
 	menubar.add_cascade(label="Data Slots", menu=datamenu)
