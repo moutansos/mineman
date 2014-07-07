@@ -36,7 +36,7 @@ class M (object):
 
 	## BACKEND FUNCTIONS ====================================
 
-
+		# These could go. Not a good way to pass the variable. Works though. Even if change. Keep these. Just in case.
 	def addLauncherSlotSpec1(self):
 		self.addLauncherSlotSpec("1")
 	def addLauncherSlotSpec2(self):
@@ -302,22 +302,27 @@ def mainprog():
 
 	launcherslot1cascade=Menu(launchermenu, tearoff=0)
 	launcherslot1cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec1)
+	launcherslot1cascade.add_command(label="Rename Launcher", command=m.empty)
 	launchermenu.add_cascade(label="Slot 1", menu=launcherslot1cascade)
 
 	launcherslot2cascade=Menu(launchermenu, tearoff=0)
 	launcherslot2cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec2)
+	launcherslot2cascade.add_command(label="Rename Launcher", command=m.empty)
 	launchermenu.add_cascade(label="Slot 2", menu=launcherslot2cascade)
 
 	launcherslot3cascade=Menu(launchermenu, tearoff=0)
 	launcherslot3cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec3)
+	launcherslot3cascade.add_command(label="Rename Launcher", command=m.empty)
 	launchermenu.add_cascade(label="Slot 3", menu=launcherslot3cascade)
 
 	launcherslot4cascade=Menu(launchermenu, tearoff=0)
 	launcherslot4cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec4)
+	launcherslot4cascade.add_command(label="Rename Launcher", command=m.empty)
 	launchermenu.add_cascade(label="Slot 4", menu=launcherslot4cascade)
 
 	launcherslot5cascade=Menu(launchermenu, tearoff=0)
 	launcherslot5cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec5)
+	launcherslot5cascade.add_command(label="Rename Launcher", command=m.empty)
 	launchermenu.add_cascade(label="Slot 5", menu=launcherslot5cascade)
 
 	menubar.add_cascade(label="Launchers", menu=launchermenu)
@@ -327,22 +332,27 @@ def mainprog():
 
 	dataslot1cascade=Menu(datamenu, tearoff=0)
 	dataslot1cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec1)
+	dataslot1cascade.add_command(label="Rename Data Slot", command=m.empty)
 	datamenu.add_cascade(label="Slot 1", menu=dataslot1cascade)
 
 	dataslot2cascade=Menu(datamenu, tearoff=0)
 	dataslot2cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec2)
+	dataslot2cascade.add_command(label="Rename Data Slot", command=m.empty)
 	datamenu.add_cascade(label="Slot 2", menu=dataslot2cascade)
 
 	dataslot3cascade=Menu(datamenu, tearoff=0)
 	dataslot3cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec3)
+	dataslot3cascade.add_command(label="Rename Data Slot", command=m.empty)
 	datamenu.add_cascade(label="Slot 3", menu=dataslot3cascade)
 
 	dataslot4cascade=Menu(datamenu, tearoff=0)
 	dataslot4cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec4)
+	dataslot4cascade.add_command(label="Rename Data Slot", command=m.empty)
 	datamenu.add_cascade(label="Slot 4", menu=dataslot4cascade)
 
 	dataslot5cascade=Menu(datamenu, tearoff=0)
 	dataslot5cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec5)
+	dataslot5cascade.add_command(label="Rename Data Slot", command=m.empty)
 	datamenu.add_cascade(label="Slot 5", menu=dataslot5cascade)
 
 	menubar.add_cascade(label="Data Slots", menu=datamenu)
@@ -356,6 +366,7 @@ def mainprog():
 	backupmenu.add_separator()
 	#backupmenu.add_command(label="Import one slot", command=m.empty)
 	backupmenu.add_command(label="Import all slots", command=m.empty)
+	backupmenu.add_command(label="Restore original minecraft configuration.", command=m.empty)
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
