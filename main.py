@@ -63,7 +63,14 @@ class M (object):
 			launcherslot=str(LaunVar.get())
 		except:
 			print "ERROR: No launcher specified."
-		print launcherslot
+		print "Launcher specified is in slot"+launcherslot
+		mainCfg.read(datadir+"\\main.conf")
+		launtostart=mainCfg.get("launchers", "slot"+launcherslot)
+		print launtostart
+		if launtostart=="<blank>":
+			print "ERROR: No launcher is in that slot!"
+		else:
+			os.system(launtostart)
 
 
 
