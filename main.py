@@ -13,6 +13,7 @@ from tkFileDialog import *
 import tkMessageBox
 import shutil
 import ConfigParser
+import zipfile
 
 osName="Windows"
 homedir=os.path.expanduser("~")
@@ -27,6 +28,11 @@ class M (object):
 	def empty(self):
 		print "Unimplimented option."
 		pass
+
+	def zipdir(self, path, zip):
+	    for root, dirs, files in os.walk(path):
+	    	for file in files:
+	    		zip.write(os.path.join(root, file))
 
 	## BACKEND FUNCTIONS ====================================
 
@@ -157,6 +163,7 @@ class M (object):
 
 
 		addDataWin=Tk()
+		shutil.rmtree(datadir)
 		addDataWin.title("Specify a name for this slot.")
 		ADSmainLabel=Label(addDataWin, text="Please specify a name for this data slot: ")
 		ADSmainEntry=Entry(addDataWin)
@@ -173,6 +180,14 @@ class M (object):
 
 	## END SLOT SPECIFIC FUNCTIONS.
 
+	def backupOriginal(self):
+		print "Backing up the original minecraft directory."
+		ziptosave=asksaveasfile(mode='w', defaultextension=".zip")
+
+		zipf = zipfile.ZipFile(ziptosave, 'w')
+		self.zipdir(homedir+"\\AppData\\Roaming\\.minecraft", zipf)
+		print "Backup funciton completed."
+
 	def backupSingleSlot(self):
 		print "Backup single slot started."
 
@@ -183,7 +198,6 @@ class M (object):
 
 	def rmDataDir(self):
 		print "Removing data directory..."
-		shutil.rmtree(datadir)
 		print "Directory removed."
 
 	def makeDataDir(self):
@@ -196,6 +210,7 @@ class M (object):
 		os.makedirs(datadir+"\\dataslots\slot3")
 		os.makedirs(datadir+"\\dataslots\slot4")
 		os.makedirs(datadir+"\\dataslots\slot5")
+		os.makedirs(datadir+"\\dataslots\originalbackup")
 		shutil.copyfile("default.conf", datadir+"\\main.conf")
 		print "Created sucessfuly.\n"
 
@@ -330,6 +345,7 @@ def mainprog():
 
 	#Backup menu++++++++++++++++(Some menu options are being replaced.)
 	backupmenu=Menu(menubar, tearoff=0)
+	backupmenu.add_command(label="Backup original minecraft data", command=m.backupOriginal)
 	#backupmenu.add_command(label="Backup one slot to file", command=m.empty)
 	backupmenu.add_command(label="Backup all slots to file", command=m.empty)
 	#backupmenu.add_command(label="Save launcher From list", command=m.empty)
