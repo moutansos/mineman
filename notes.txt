@@ -12,13 +12,15 @@ mineman - 1.0 Notes
 		*-All normal functions
 		*-backup options
 			*-Opens a seperate gui for backing up minecraft instances.
-	--On the bottom is play and exit buttons
+	**On the bottom is play and exit buttons
 	--Delete launcher function
 	**Delete data folder function
 		--Add warning box for delete data function
-	--Place a copying window for when the data slot copys to the launcher.
 	--Add way to rename launchers
 	--Better error reporting and messaging. A spot on the Tk window could be used for notification.
+		--Errors
+		--Copying and compressing notifications
+		--General status notificaitons
 
 
 --Backend
@@ -31,3 +33,5 @@ mineman - 1.0 Notes
 	--Find version of minecraft in slot folder
 	--When starting launcher make sure that the .minecraft directory does not exist.
 	--Add support for exe launchers as well as jar launchers
+	--Restore original minecraft directory(For uninstall)
+		--safegaurds please
