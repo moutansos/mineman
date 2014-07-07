@@ -181,11 +181,15 @@ class M (object):
 	## END SLOT SPECIFIC FUNCTIONS.
 
 	def backupOriginal(self):
-		print "Backing up the original minecraft directory."
-		ziptosave=asksaveasfile(mode='w', defaultextension=".zip")
+		print "Backing up the original minecraft directory. (Folder only. Zip function soon.)"
+		#ziptosave=asksaveasfile(mode='w', defaultextension=".zip")
+		print "Getting destination..."
+		foldertostoreold=askdirectory()
+		print "Coppying...."
+		shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", foldertostoreold+"\\.minecraft")
 
-		zipf = zipfile.ZipFile(ziptosave, 'w')
-		self.zipdir(homedir+"\\AppData\\Roaming\\.minecraft", zipf)
+		#zipf = zipfile.ZipFile(ziptosave, 'w')
+		#self.zipdir(homedir+"\\AppData\\Roaming\\.minecraft", zipf)
 		print "Backup funciton completed."
 
 	def backupSingleSlot(self):
