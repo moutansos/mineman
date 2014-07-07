@@ -1,6 +1,9 @@
 mineman - 1.0 Notes
 
 
+===LINUX SUPPORT NEEDS TO BE ADDED
+===Maybe support for minecraft for pi too
+
 --GUI in Tkinter
 	*-Shows installed minecraft launchers
 	*-Shows minecraft datafiles available
@@ -15,6 +18,7 @@ mineman - 1.0 Notes
 		--Add warning box for delete data function
 	--Place a copying window for when the data slot copys to the launcher.
 	--Add way to rename launchers
+	--Better error reporting and messaging. A spot on the Tk window could be used for notification.
 
 
 --Backend
