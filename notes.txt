@@ -14,6 +14,7 @@ mineman - 1.0 Notes
 	**Delete data folder function
 		--Add warning box for delete data function
 	--Place a copying window for when the data slot copys to the launcher.
+	--Add way to rename launchers
 
 
 --Backend
