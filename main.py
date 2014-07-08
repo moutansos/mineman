@@ -27,7 +27,6 @@ class M (object):
 
 	def empty(self):
 		print "Unimplimented option."
-		pass
 
 	def zipdir(self, path, zip):
 	    for root, dirs, files in os.walk(path):
@@ -126,6 +125,7 @@ class M (object):
 
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
+		#Add safegaurds for slots already filled.
 		print "Adding launcher to Slot "+launchnum
 		launtoadd=askopenfilename()
 		if launtoadd=="":
@@ -163,8 +163,15 @@ class M (object):
 			GNDmainButton.pack(padx=20, pady=10)
 			getNameDiag.mainloop()
 
+	def renameLauncherSlotSpec(self, launchnum):
+		pass
+
+	def deleteLauncherSlotSPec(self, launchnum):
+		pass
+
 	def addDataSlotSpec(self, datanum):
 		## This is the add data function that is not working. Under construction.
+		# Add safegaurds for data slots already filled.
 		print "Adding a new data slot."
 		def getSlotFromDiag():
 			DataName=ADSmainEntry.get()
@@ -216,8 +223,13 @@ class M (object):
 		ADSmainEntry.pack(padx=20, pady=10, fill=X)
 		ADSmainButton.pack(padx=20, pady=10)
 		addDataWin.mainloop()
-		
 
+	def renameDataSlotSpec(self, datanum):
+		pass
+
+	def deleteDataSlotSpec(self, datanum):
+		pass
+		
 
 
 
@@ -246,6 +258,8 @@ class M (object):
 
 	def rmDataDir(self):
 		print "Removing data directory..."
+		shutil.rmtree(datadir)
+		#Add safegaurds and also reset slots on the GUI
 		print "Directory removed."
 
 	def makeDataDir(self):
@@ -420,7 +434,7 @@ def mainprog():
 	backupmenu.add_separator()
 	#backupmenu.add_command(label="Import one slot", command=m.empty)
 	backupmenu.add_command(label="Import all slots", command=m.empty)
-	backupmenu.add_command(label="Restore original minecraft configuration.", command=m.empty)
+	backupmenu.add_command(label="Restore original minecraft configuration", command=m.empty)
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
