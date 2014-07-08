@@ -404,13 +404,18 @@ def mainprog():
 
 	dataFrame = Frame(mainwin)
 	dataLabel= Label(dataFrame, text="Data folders available: ")
+	dataslot1Name=mainCfg.get("data", "slot1Name")
+	dataslot2Name=mainCfg.get("data", "slot2Name")
+	dataslot3Name=mainCfg.get("data", "slot3Name")
+	dataslot4Name=mainCfg.get("data", "slot4Name")
+	dataslot5Name=mainCfg.get("data", "slot5Name")
 	global DataVar
 	DataVar=IntVar()
-	Data1=Radiobutton(dataFrame, text="Data 1 Slot:     ", variable=DataVar, value=1)
-	Data2=Radiobutton(dataFrame, text="Data 2 Slot:     ", variable=DataVar, value=2)
-	Data3=Radiobutton(dataFrame, text="Data 3 Slot:     ", variable=DataVar, value=3)
-	Data4=Radiobutton(dataFrame, text="Data 4 Slot:     ", variable=DataVar, value=4)
-	Data5=Radiobutton(dataFrame, text="Data 5 Slot:     ", variable=DataVar, value=5)
+	Data1=Radiobutton(dataFrame, text="Data 1 Slot:     "+dataslot1Name, variable=DataVar, value=1)
+	Data2=Radiobutton(dataFrame, text="Data 2 Slot:     "+dataslot2Name, variable=DataVar, value=2)
+	Data3=Radiobutton(dataFrame, text="Data 3 Slot:     "+dataslot3Name, variable=DataVar, value=3)
+	Data4=Radiobutton(dataFrame, text="Data 4 Slot:     "+dataslot4Name, variable=DataVar, value=4)
+	Data5=Radiobutton(dataFrame, text="Data 5 Slot:     "+dataslot5Name, variable=DataVar, value=5)
 
 
 	controlFrame.pack(side=BOTTOM, fill=X, padx=5, pady=5)
