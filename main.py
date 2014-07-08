@@ -60,6 +60,50 @@ class M (object):
 	def addDataSlotSpec5(self):
 		self.addDataSlotSpec("5")
 
+	def renameLauncherSlotSpec1(self):
+		self.empty()
+	def renameLauncherSlotSpec2(self):
+		self.empty()
+	def renameLauncherSlotSpec3(self):
+		self.empty()
+	def renameLauncherSlotSpec4(self):
+		self.empty()
+	def renameLauncherSlotSpec5(self):
+		self.empty()	
+
+	def deleteLauncherSlotSpec1(self):
+		self.empty()
+	def deleteLauncherSlotSpec2(self):
+		self.empty()
+	def deleteLauncherSlotSpec3(self):
+		self.empty()
+	def deleteLauncherSlotSpec4(self):
+		self.empty()
+	def deleteLauncherSlotSpec5(self):
+		self.empty()
+
+	def renameDataSlotSpec1(self):
+		self.empty()
+	def renameDataSlotSpec2(self):
+		self.empty()
+	def renameDataSlotSpec3(self):
+		self.empty()
+	def renameDataSlotSpec4(self):
+		self.empty()
+	def renameDataSlotSpec5(self):
+		self.empty()
+
+	def deleteDataSlotSpec1(self):
+		self.empty()
+	def deleteDataSlotSpec2(self):
+		self.empty()
+	def deleteDataSlotSpec3(self):
+		self.empty()
+	def deleteDataSlotSpec4(self):
+		self.empty()
+	def deleteDataSlotSpec5(self):
+		self.empty()
+
 
 
 	def startlauncher(self):
@@ -302,27 +346,32 @@ def mainprog():
 
 	launcherslot1cascade=Menu(launchermenu, tearoff=0)
 	launcherslot1cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec1)
-	launcherslot1cascade.add_command(label="Rename Launcher", command=m.empty)
+	launcherslot1cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec1)
+	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec1)
 	launchermenu.add_cascade(label="Slot 1", menu=launcherslot1cascade)
 
 	launcherslot2cascade=Menu(launchermenu, tearoff=0)
 	launcherslot2cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec2)
-	launcherslot2cascade.add_command(label="Rename Launcher", command=m.empty)
+	launcherslot2cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec2)
+	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec2)
 	launchermenu.add_cascade(label="Slot 2", menu=launcherslot2cascade)
 
 	launcherslot3cascade=Menu(launchermenu, tearoff=0)
 	launcherslot3cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec3)
-	launcherslot3cascade.add_command(label="Rename Launcher", command=m.empty)
+	launcherslot3cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec3)
+	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec3)
 	launchermenu.add_cascade(label="Slot 3", menu=launcherslot3cascade)
 
 	launcherslot4cascade=Menu(launchermenu, tearoff=0)
 	launcherslot4cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec4)
-	launcherslot4cascade.add_command(label="Rename Launcher", command=m.empty)
+	launcherslot4cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec4)
+	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec4)
 	launchermenu.add_cascade(label="Slot 4", menu=launcherslot4cascade)
 
 	launcherslot5cascade=Menu(launchermenu, tearoff=0)
 	launcherslot5cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec5)
-	launcherslot5cascade.add_command(label="Rename Launcher", command=m.empty)
+	launcherslot5cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec5)
+	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec5)
 	launchermenu.add_cascade(label="Slot 5", menu=launcherslot5cascade)
 
 	menubar.add_cascade(label="Launchers", menu=launchermenu)
@@ -332,27 +381,32 @@ def mainprog():
 
 	dataslot1cascade=Menu(datamenu, tearoff=0)
 	dataslot1cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec1)
-	dataslot1cascade.add_command(label="Rename Data Slot", command=m.empty)
+	dataslot1cascade.add_command(label="Rename Data Slot", command=m.renameDataSlotSpec1)
+	dataslot1cascade.add_command(label="Clear Data Slot", command=m.deleteDataSlotSpec1)
 	datamenu.add_cascade(label="Slot 1", menu=dataslot1cascade)
 
 	dataslot2cascade=Menu(datamenu, tearoff=0)
 	dataslot2cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec2)
-	dataslot2cascade.add_command(label="Rename Data Slot", command=m.empty)
+	dataslot2cascade.add_command(label="Rename Data Slot", command=m.renameDataSlotSpec2)
+	dataslot2cascade.add_command(label="Clear Data Slot", command=m.deleteDataSlotSpec2)
 	datamenu.add_cascade(label="Slot 2", menu=dataslot2cascade)
 
 	dataslot3cascade=Menu(datamenu, tearoff=0)
 	dataslot3cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec3)
-	dataslot3cascade.add_command(label="Rename Data Slot", command=m.empty)
+	dataslot3cascade.add_command(label="Rename Data Slot", command=m.renameDataSlotSpec3)
+	dataslot3cascade.add_command(label="Clear Data Slot", command=m.deleteDataSlotSpec3)
 	datamenu.add_cascade(label="Slot 3", menu=dataslot3cascade)
 
 	dataslot4cascade=Menu(datamenu, tearoff=0)
 	dataslot4cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec4)
-	dataslot4cascade.add_command(label="Rename Data Slot", command=m.empty)
+	dataslot4cascade.add_command(label="Rename Data Slot", command=m.renameDataSlotSpec4)
+	dataslot4cascade.add_command(label="Clear Data Slot", command=m.deleteDataSlotSpec4)
 	datamenu.add_cascade(label="Slot 4", menu=dataslot4cascade)
 
 	dataslot5cascade=Menu(datamenu, tearoff=0)
 	dataslot5cascade.add_command(label="Add Data Slot", command=m.addDataSlotSpec5)
-	dataslot5cascade.add_command(label="Rename Data Slot", command=m.empty)
+	dataslot5cascade.add_command(label="Rename Data Slot", command=m.renameDataSlotSpec5)
+	dataslot5cascade.add_command(label="Clear Data Slot", command=m.deleteDataSlotSpec5)
 	datamenu.add_cascade(label="Slot 5", menu=dataslot5cascade)
 
 	menubar.add_cascade(label="Data Slots", menu=datamenu)
