@@ -60,26 +60,26 @@ class M (object):
 		self.addDataSlotSpec("5")
 
 	def renameLauncherSlotSpec1(self):
-		self.empty()
+		self.renameLauncherSlotSpec1("1")
 	def renameLauncherSlotSpec2(self):
-		self.empty()
+		self.renameLauncherSlotSpec2("2")
 	def renameLauncherSlotSpec3(self):
-		self.empty()
+		self.renameLauncherSlotSpec3("3")
 	def renameLauncherSlotSpec4(self):
-		self.empty()
+		self.renameLauncherSlotSpec4("4")
 	def renameLauncherSlotSpec5(self):
-		self.empty()	
+		self.renameLauncherSlotSpec5("5")
 
 	def deleteLauncherSlotSpec1(self):
-		self.empty()
+		self.deleteLauncherSlotSpec("1")
 	def deleteLauncherSlotSpec2(self):
-		self.empty()
+		self.deleteLauncherSlotSpec("2")
 	def deleteLauncherSlotSpec3(self):
-		self.empty()
+		self.deleteLauncherSlotSpec("3")
 	def deleteLauncherSlotSpec4(self):
-		self.empty()
+		self.deleteLauncherSlotSpec("4")
 	def deleteLauncherSlotSpec5(self):
-		self.empty()
+		self.deleteLauncherSlotSpec("5")
 
 	def renameDataSlotSpec1(self):
 		self.empty()
@@ -164,10 +164,65 @@ class M (object):
 			getNameDiag.mainloop()
 
 	def renameLauncherSlotSpec(self, launchnum):
-		pass
+		print "Renaming launcher "+launchnum
+		mainCfg.read(datadir+"\\main.conf")
+		if mainCfg.get("launchers", "slot"+launchnum+"Name") == "<Empty>":
+			print "Empty Slot! You can't rename an empty slot!"
+		else:
 
-	def deleteLauncherSlotSPec(self, launchnum):
-		pass
+			def GRWSRL():
+				nametochangeto=GRWmainEntry.get()
+				if nametochangeto=="<Empty>":
+					print "ERROR: You cant use that name."
+				else:
+					mainCfg.set("launchers", "slot"+launchnum+"Name", nametochangeto)
+					with open(datadir+"\\main.conf", 'wb') as configfile:
+						mainCfg.write(configfile)
+					print "Name is changed."
+
+
+			GRWmain=Tk()
+			GRWmain.title("New name")
+			GRWmainLabel=Label(GRWmain, text="Please specify the new name for launcher "+launchnum)
+			GRWmainEntry=Entry(GRWmain)
+			GRWmainBtn=Button(GRWmain, text="Ok", command=GRWSRL)
+			GRWmainLabel.pack(padx=10, pady=2)
+			GRWmainEntry.pack(expand=1, padx=10, pady=2)
+			GRWmainBtn.pack(padx=10, pady=2)
+			GRWmain.mainloop()
+
+	def deleteLauncherSlotSpec(self, launchnum):
+		print "Deleting launcher "+launchnum
+		mainCfg.read(datadir+"\\main.conf")
+		if mainCfg.get("launchers", "slot"+launchnum)=="<blank>":
+			print "This slot is empty! You can't delete an empty slot!"
+		else:
+			def GDSADS():
+				GDSmain.destroy()
+				mainCfg.set("launchers", "slot"+launchnum, "<blank>")
+				mainCfg.set("launchers", "slot"+launchnum+"Name", "<Empty>")
+				with open(datadir+"\\main.conf", 'wb') as configfile:
+						mainCfg.write(configfile)
+				os.remove(datadir+"\\launchers\\slot"+launchnum+".jar")
+
+
+			def AbortDel():
+				GDSmain.destroy()
+				print "Aborting Delete."
+
+			GDSmain=Tk()
+			GDSmain.title("Delete this slot")
+			GDSmainLabel=Label(GDSmain, text="Are you sure you want to delete slot"+launchnum+"?")
+
+			GDSyesBtn=Button(GDSmain, text="Yes", command=GDSADS)
+			GDSnoBtn=Button(GDSmain, text="No", command=AbortDel)
+
+			GDSmainLabel.pack(padx=10, pady=2)
+			GDSyesBtn.pack(fill=X, padx=10, pady=2)
+			GDSnoBtn.pack(fill=X, padx=10, pady=2)
+
+
+			GDSmain.mainloop()
 
 	def addDataSlotSpec(self, datanum):
 		## This is the add data function that is not working. Under construction.
@@ -367,25 +422,25 @@ def mainprog():
 	launcherslot2cascade=Menu(launchermenu, tearoff=0)
 	launcherslot2cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec2)
 	launcherslot2cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec2)
-	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec2)
+	launcherslot2cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec2)
 	launchermenu.add_cascade(label="Slot 2", menu=launcherslot2cascade)
 
 	launcherslot3cascade=Menu(launchermenu, tearoff=0)
 	launcherslot3cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec3)
 	launcherslot3cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec3)
-	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec3)
+	launcherslot3cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec3)
 	launchermenu.add_cascade(label="Slot 3", menu=launcherslot3cascade)
 
 	launcherslot4cascade=Menu(launchermenu, tearoff=0)
 	launcherslot4cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec4)
 	launcherslot4cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec4)
-	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec4)
+	launcherslot4cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec4)
 	launchermenu.add_cascade(label="Slot 4", menu=launcherslot4cascade)
 
 	launcherslot5cascade=Menu(launchermenu, tearoff=0)
 	launcherslot5cascade.add_command(label="Add Launcher", command=m.addLauncherSlotSpec5)
 	launcherslot5cascade.add_command(label="Rename Launcher", command=m.renameLauncherSlotSpec5)
-	launcherslot1cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec5)
+	launcherslot5cascade.add_command(label="Clear Launcher", command=m.deleteLauncherSlotSpec5)
 	launchermenu.add_cascade(label="Slot 5", menu=launcherslot5cascade)
 
 	menubar.add_cascade(label="Launchers", menu=launchermenu)
