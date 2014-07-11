@@ -228,56 +228,90 @@ class M (object):
 		## This is the add data function that is not working. Under construction.
 		# Add safegaurds for data slots already filled.
 		print "Adding a new data slot."
-		def getSlotFromDiag():
-			DataName=ADSmainEntry.get()
-			if DataName=="":
-				print "ERROR: No name was specified."
-			else:
-				addDataWin.destroy()
-				slotNumber="slot"+datanum+"Name"
 
-				def newDataSlot():
-					ANOOmainWin.destroy()
-					os.mkdir(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
-					mainCfg.set("data", slotNumber, DataName)
-					print "Saving changes to config file."
-					with open(datadir+"\\main.conf", 'wb') as configfile:
-						mainCfg.write(configfile)
+		def writeData():
+			AOWSmain.destroy()
+			def getSlotFromDiag():
+				DataName=ADSmainEntry.get()
+				if DataName=="":
+					print "ERROR: No name was specified."
+				else:
+					addDataWin.destroy()
+					slotNumber="slot"+datanum+"Name"
 
-				def oldDataSlot():
-					ANOOmainWin.destroy()
-					datatoget=askdirectory()
-					try:
-						shutil.rmtree(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
-					except:
-						pass
-					shutil.copytree(datatoget, datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
-					mainCfg.set("data", slotNumber, DataName)
-					print "Saving changes to config file."
-					with open(datadir+"\\main.conf", 'wb') as configfile:
-						mainCfg.write(configfile)
+					def newDataSlot():
+						ANOOmainWin.destroy()
+						try:
+							shutil.rmtree(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+							print "There's data in this slot. It's been removed."
+						except:
+							pass
+						os.mkdir(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+						mainCfg.set("data", slotNumber, DataName)
+						print "Saving changes to config file."
+						with open(datadir+"\\main.conf", 'wb') as configfile:
+							mainCfg.write(configfile)
 
-				ANOOmainWin=Tk()
-				ANOOmainWin.title("New slot or choose data file?")
-				ANOOmainLabel=Label(ANOOmainWin, text="Is this a new slot or do you have an old minecraft directory for this slot?")
-				ANOOnewBtn=Button(ANOOmainWin, text="New", command=newDataSlot)
-				ANOOoldBtn=Button(ANOOmainWin, text="Old", command=oldDataSlot)
-				ANOOmainLabel.pack(padx=20, pady=10)
-				ANOOnewBtn.pack(padx=20, pady=10)
-				ANOOoldBtn.pack(padx=20, pady=10)
-				ANOOmainWin.mainloop
+					def oldDataSlot():
+						ANOOmainWin.destroy()
+						datatoget=askdirectory()
+						try:
+							shutil.rmtree(datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+							print "There's data in this slot. It's been removed."
+						except:
+							pass
+						print "Copying data directory..."
+						shutil.copytree(datatoget, datadir+"\\dataslots\\slot"+datanum+"\\.minecraft")
+						mainCfg.set("data", slotNumber, DataName)
+						print "Saving changes to config file."
+						with open(datadir+"\\main.conf", 'wb') as configfile:
+							mainCfg.write(configfile)
+
+					ANOOmainWin=Tk()
+					ANOOmainWin.title("New slot or choose data file?")
+					ANOOmainLabel=Label(ANOOmainWin, text="Is this a new slot or do you have an old minecraft directory for this slot?")
+					ANOOnewBtn=Button(ANOOmainWin, text="New", command=newDataSlot)
+					ANOOoldBtn=Button(ANOOmainWin, text="Old", command=oldDataSlot)
+					ANOOmainLabel.pack(padx=20, pady=10)
+					ANOOnewBtn.pack(padx=20, pady=10)
+					ANOOoldBtn.pack(padx=20, pady=10)
+					ANOOmainWin.mainloop
 
 
-		addDataWin=Tk()
-		shutil.rmtree(datadir)
-		addDataWin.title("Specify a name for this slot.")
-		ADSmainLabel=Label(addDataWin, text="Please specify a name for this data slot: ")
-		ADSmainEntry=Entry(addDataWin)
-		ADSmainButton=Button(addDataWin, text="Ok", command=getSlotFromDiag)
-		ADSmainLabel.pack(padx=20, pady=10)
-		ADSmainEntry.pack(padx=20, pady=10, fill=X)
-		ADSmainButton.pack(padx=20, pady=10)
-		addDataWin.mainloop()
+			addDataWin=Tk()
+			addDataWin.title("Specify a name for this slot.")
+			ADSmainLabel=Label(addDataWin, text="Please specify a name for this data slot: ")
+			ADSmainEntry=Entry(addDataWin)
+			ADSmainButton=Button(addDataWin, text="Ok", command=getSlotFromDiag)
+			ADSmainLabel.pack(padx=20, pady=10)
+			ADSmainEntry.pack(padx=20, pady=10, fill=X)
+			ADSmainButton.pack(padx=20, pady=10)
+			addDataWin.mainloop()
+
+		def AbortNewData():
+			AOWSmain.destroy()
+			print "Aborting creating or writing a new data slot."
+
+
+
+		mainCfg.read(datadir+"\\main.conf")
+		if mainCfg.get("data", "slot"+datanum+"Name") == "<Empty>":
+			print "Using empty slot."
+		else:
+			print "WARNING: There's data there!"
+			AOWSmain=Tk()
+			AOWSmain.title("Overwright this slot")
+			AOWSmainLabel=Label(AOWSmain, text="Are you sure you want to overwright slot"+datanum+"?")
+
+			AOWSyesBtn=Button(AOWSmain, text="Yes", command=writeData)
+			AOWSnoBtn=Button(AOWSmain, text="No", command=AbortNewData)
+
+			AOWSmainLabel.pack(padx=10, pady=2)
+			AOWSyesBtn.pack(fill=X, padx=10, pady=2)
+			AOWSnoBtn.pack(fill=X, padx=10, pady=2)
+			AOWSmain.mainloop()
+
+			
 
 	def renameDataSlotSpec(self, datanum):
 		pass
