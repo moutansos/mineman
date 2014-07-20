@@ -21,6 +21,7 @@ mineman - 1.0 Notes
 		--Errors
 		--Copying and compressing notifications
 		--General status notificaitons
+	--Update GUI as slots are updated
 
 
 --Backend
