@@ -270,6 +270,7 @@ class M (object):
 	def addDataSlotSpec(self, datanum):
 		## This is the add data function that is working now!
 		# Add tagging of new minecraft data direcctories. (Just a file)
+		# Also add safegaurds so data does not get overwritten.
 		print "Adding a new data slot."
 
 		def writeData():
@@ -281,6 +282,20 @@ class M (object):
 				else:
 					addDataWin.destroy()
 					slotNumber="slot"+datanum+"Name"
+
+					def updateDataGUI():
+						if datanum=="1":
+							Data1.config(text="Data 1 Slot:     "+DataName)
+						elif datanum=="2":
+							Data2.config(text="Data 2 Slot:     "+DataName)
+						elif datanum=="3":
+							Data3.config(text="Data 3 Slot:     "+DataName)
+						elif datanum=="4":
+							Data4.config(text="Data 4 Slot:     "+DataName)
+						elif datanum=="5":
+							Data5.config(text="Data 5 Slot:     "+DataName)
+						else:
+							print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
 					def newDataSlot():
 						ANOOmainWin.destroy()
@@ -294,6 +309,7 @@ class M (object):
 						print "Saving changes to config file."
 						with open(datadir+"\\main.conf", 'wb') as configfile:
 							mainCfg.write(configfile)
+						updateDataGUI()
 
 					def oldDataSlot():
 						ANOOmainWin.destroy()
@@ -309,6 +325,7 @@ class M (object):
 						print "Saving changes to config file."
 						with open(datadir+"\\main.conf", 'wb') as configfile:
 							mainCfg.write(configfile)
+						updateDataGUI()
 
 					ANOOmainWin=Tk()
 					ANOOmainWin.title("New slot or choose data file?")
@@ -367,19 +384,38 @@ class M (object):
 	## END SLOT SPECIFIC FUNCTIONS.
 
 	def backupOriginal(self):
-		print "Backing up the original minecraft directory. (Folder only. Zip function soon.)"
-		#ziptosave=asksaveasfile(mode='w', defaultextension=".zip")
-		print "Getting destination..."
-		foldertostoreold=askdirectory()
-		print "Coppying...."
-		shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", foldertostoreold+"\\.minecraft")
+		#Add warning if the orignal is a mineman slot.
+		print "Backing up original minecraft data."
+		def backupTheOriginal():
+			print "Copying folder...."
+			try:
+				shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", datadir+"\\dataslots\\originalbackup\\.minecraft")
+				print "Removing original directory..."
+				shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
 
-		#zipf = zipfile.ZipFile(ziptosave, 'w')
-		#self.zipdir(homedir+"\\AppData\\Roaming\\.minecraft", zipf)
-		print "Backup funciton completed."
+				mainCfg.read(datadir+"\\main.cfg")
+				mainCfg.set("data", "backupslot", "<yes>")
+			except:
+				print "An eror occured backing up the original minecraft data. Is there any data to back up?"
+
+			print "Finished."
+
+		mainCfg.read(datadir+"\\main.cfg")
+		if mainCfg.get("data", "backupslot")=="<yes>":
+			print "The original backup slot is already filled."
+		else:
+			print "Backup slot clear."
+			backupTheOriginal()
+
+	def restoreOriginal(self):
+		m.empty()
+
+	def deleteOriginal(self):
+		m.empty()
 
 	def backupSingleSlot(self):
 		print "Backup single slot started."
+		m.empty()
 
 
 	def exitProg(self):
@@ -564,7 +600,7 @@ def mainprog():
 	backupmenu.add_separator()
 	#backupmenu.add_command(label="Import one slot", command=m.empty)
 	backupmenu.add_command(label="Import all slots", command=m.empty)
-	backupmenu.add_command(label="Restore original minecraft configuration", command=m.empty)
+	backupmenu.add_command(label="Restore original minecraft data", command=m.restoreOriginal)
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
