@@ -13,15 +13,15 @@ mineman - 1.0 Notes
 		*-backup options
 			*-Opens a seperate gui for backing up minecraft instances.
 	**On the bottom is play and exit buttons
-	--Delete launcher function
+	**Delete launcher function
 	**Delete data folder function
 		--Add warning box for delete data function
-	--Add way to rename launchers
+	**Add way to rename launchers
 	--Better error reporting and messaging. A spot on the Tk window could be used for notification.
 		--Errors
 		--Copying and compressing notifications
 		--General status notificaitons
-	--Update GUI as slots are updated
+	**Update GUI as slots are updated
 
 
 --Backend
@@ -36,3 +36,5 @@ mineman - 1.0 Notes
 	--Add support for exe launchers as well as jar launchers
 	--Restore original minecraft directory(For uninstall)
 		--safegaurds please
+	--Crash Recovery. place a file that tells that the current working minecraft config is not saved in each slot. Like unix lock file.
+		--Add option to overide. All or just one slot lock.
