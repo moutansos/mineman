@@ -60,15 +60,15 @@ class M (object):
 		self.addDataSlotSpec("5")
 
 	def renameLauncherSlotSpec1(self):
-		self.renameLauncherSlotSpec1("1")
+		self.renameLauncherSlotSpec("1")
 	def renameLauncherSlotSpec2(self):
-		self.renameLauncherSlotSpec2("2")
+		self.renameLauncherSlotSpec("2")
 	def renameLauncherSlotSpec3(self):
-		self.renameLauncherSlotSpec3("3")
+		self.renameLauncherSlotSpec("3")
 	def renameLauncherSlotSpec4(self):
-		self.renameLauncherSlotSpec4("4")
+		self.renameLauncherSlotSpec("4")
 	def renameLauncherSlotSpec5(self):
-		self.renameLauncherSlotSpec5("5")
+		self.renameLauncherSlotSpec("5")
 
 	def deleteLauncherSlotSpec1(self):
 		self.deleteLauncherSlotSpec("1")
@@ -152,6 +152,20 @@ class M (object):
 					print "Saving changes to config file."
 					with open(datadir+"\\main.conf", 'wb') as configfile:
 						mainCfg.write(configfile)
+					#exec("Data"+launchnum+".config('text="+LaunName+"')")
+					if launchnum=="1":
+						Laun1.config(text="Launcher 1 Slot:     "+LaunName)
+					elif launchnum=="2":
+						Laun2.config(text="Launcher 2 Slot:     "+LaunName)
+					elif launchnum=="3":
+						Laun3.config(text="Launcher 3 Slot:     "+LaunName)
+					elif launchnum=="4":
+						Laun4.config(text="Launcher 4 Slot:     "+LaunName)
+					elif launchnum=="5":
+						Laun5.config(text="Launcher 5 Slot:     "+LaunName)
+					else:
+						print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
+
 
 			getNameDiag=Tk()
 			getNameDiag.title("Input Launcher Name")
@@ -171,14 +185,31 @@ class M (object):
 		else:
 
 			def GRWSRL():
-				nametochangeto=GRWmainEntry.get()
-				if nametochangeto=="<Empty>":
-					print "ERROR: You cant use that name."
+				mainCfg.read(datadir+"\\main.conf")
+				if mainCfg.get("launchers", "slot"+launchnum)=="<blank>":
+					print "You can't rename an empty slot!"
 				else:
-					mainCfg.set("launchers", "slot"+launchnum+"Name", nametochangeto)
-					with open(datadir+"\\main.conf", 'wb') as configfile:
-						mainCfg.write(configfile)
-					print "Name is changed."
+					nametochangeto=GRWmainEntry.get()
+					if nametochangeto=="<Empty>":
+						print "ERROR: You cant use that name."
+					else:
+						GRWmain.destroy()
+						mainCfg.set("launchers", "slot"+launchnum+"Name", nametochangeto)
+						with open(datadir+"\\main.conf", 'wb') as configfile:
+							mainCfg.write(configfile)
+						print "Name is changed."
+						if launchnum=="1":
+							Laun1.config(text="Launcher 1 Slot:     "+nametochangeto)
+						elif launchnum=="2":
+							Laun2.config(text="Launcher 2 Slot:     "+nametochangeto)
+						elif launchnum=="3":
+							Laun3.config(text="Launcher 3 Slot:     "+nametochangeto)
+						elif launchnum=="4":
+							Laun4.config(text="Launcher 4 Slot:     "+nametochangeto)
+						elif launchnum=="5":
+							Laun5.config(text="Launcher 5 Slot:     "+nametochangeto)
+						else:
+							print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
 
 			GRWmain=Tk()
@@ -204,6 +235,18 @@ class M (object):
 				with open(datadir+"\\main.conf", 'wb') as configfile:
 						mainCfg.write(configfile)
 				os.remove(datadir+"\\launchers\\slot"+launchnum+".jar")
+				if launchnum=="1":
+					Laun1.config(text="Launcher 1 Slot:      <Empty>")
+				elif launchnum=="2":
+					Laun2.config(text="Launcher 2 Slot:      <Empty>")
+				elif launchnum=="3":
+					Laun3.config(text="Launcher 3 Slot:      <Empty>")
+				elif launchnum=="4":
+					Laun4.config(text="Launcher 4 Slot:      <Empty>")
+				elif launchnum=="5":
+					Laun5.config(text="Launcher 5 Slot:      <Empty>")
+				else:
+					print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
 
 			def AbortDel():
@@ -225,8 +268,8 @@ class M (object):
 			GDSmain.mainloop()
 
 	def addDataSlotSpec(self, datanum):
-		## This is the add data function that is not working. Under construction.
-		# Add safegaurds for data slots already filled.
+		## This is the add data function that is working now!
+		# Add tagging of new minecraft data direcctories. (Just a file)
 		print "Adding a new data slot."
 
 		def writeData():
@@ -310,8 +353,6 @@ class M (object):
 			AOWSyesBtn.pack(fill=X, padx=10, pady=2)
 			AOWSnoBtn.pack(fill=X, padx=10, pady=2)
 			AOWSmain.mainloop()
-
-			
 
 	def renameDataSlotSpec(self, datanum):
 		pass
@@ -551,6 +592,11 @@ def mainprog():
 	launcherslot4Name=mainCfg.get("launchers", "slot4Name")
 	launcherslot5Name=mainCfg.get("launchers", "slot5Name")
 	global LaunVar
+	global Laun1
+	global Laun2
+	global Laun3
+	global Laun4
+	global Laun5
 	LaunVar=IntVar()
 	## BEN! WRITE A DEFINITION TO TRY TO PASS THE VALUE SELECTED TO THE LAUNCHERS.
 	Laun1=Radiobutton(launcherFrame, text="Launcher 1 Slot:     "+launcherslot1Name, variable=LaunVar, value=1)
@@ -567,6 +613,11 @@ def mainprog():
 	dataslot4Name=mainCfg.get("data", "slot4Name")
 	dataslot5Name=mainCfg.get("data", "slot5Name")
 	global DataVar
+	global Data1
+	global Data2
+	global Data3
+	global Data4
+	global Data5
 	DataVar=IntVar()
 	Data1=Radiobutton(dataFrame, text="Data 1 Slot:     "+dataslot1Name, variable=DataVar, value=1)
 	Data2=Radiobutton(dataFrame, text="Data 2 Slot:     "+dataslot2Name, variable=DataVar, value=2)
