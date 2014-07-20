@@ -5,8 +5,8 @@ mineman - 1.0 Notes
 ===Maybe support for minecraft for pi too
 
 --GUI in Tkinter
-	*-Shows installed minecraft launchers
-	*-Shows minecraft datafiles available
+	**Shows installed minecraft launchers
+	**Shows minecraft datafiles available
 	--Edit button to change entries
 	*-Menu at the top
 		*-All normal functions
@@ -22,11 +22,16 @@ mineman - 1.0 Notes
 		--Copying and compressing notifications
 		--General status notificaitons
 	**Update GUI as slots are updated
+	--Backup slot managment(Delete)
+	--Setting to start w/o the console
 
 
 --Backend
 	--SAFEGAURDS NEED TO BE IMPLEMENTED.
 	--backup system
+		--export slots
+		--export launchers
+			--Zip or non zip
 	--Backup the entire system directory to a zip file
 	--scanning for minecraft that is currently installed
 	--maybe put a cfg file in each minecraft data folder for reference
@@ -38,3 +43,10 @@ mineman - 1.0 Notes
 		--safegaurds please
 	--Crash Recovery. place a file that tells that the current working minecraft config is not saved in each slot. Like unix lock file.
 		--Add option to overide. All or just one slot lock.
+	--Start Launchers/Data funciton
+		--Loading bar for data directory moving.
+		--Move data files
+		--Start Minecraft Launcher
+	--Backup Folder elsewhere on the hard drive.
+		--Smart clean backups that are of the same data
+	--Add way to copy a data directory in one slot to a new slot
