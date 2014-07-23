@@ -435,7 +435,7 @@ class M (object):
 		askClearAll=Tk()
 		askClearAll.title("Are you sure?")
 		acaMainLabel=Label(askClearAll, text="Are you sure you want to clear the entire data directory?")
-		acaSecondLabel=Label(askClearAll, text="(This cannot be undone)")
+		acaSecondLabel=Label(askClearAll, text="(This cannot be undone and it will delete your original minecraft data.)")
 		acaYesBtn=Button(askClearAll, text="Yes", command=clear)
 		acaNoBtn=Button(askClearAll, text="No", command=abort)
 		acaMainLabel.pack(padx=10, pady=2)
