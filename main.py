@@ -424,9 +424,26 @@ class M (object):
 
 	def rmDataDir(self):
 		print "Removing data directory..."
-		shutil.rmtree(datadir)
-		#Add safegaurds and also reset slots on the GUI
-		print "Directory removed."
+		def clear():
+			askClearAll.destroy()
+			shutil.rmtree(datadir)
+			print "Directory removed."
+		def abort():
+			askClearAll.destroy()
+			print "Delete was canceled."
+
+		askClearAll=Tk()
+		askClearAll.title("Are you sure?")
+		acaMainLabel=Label(askClearAll, text="Are you sure you want to clear the entire data directory?")
+		acaSecondLabel=Label(askClearAll, text="(This cannot be undone)")
+		acaYesBtn=Button(askClearAll, text="Yes", command=clear)
+		acaNoBtn=Button(askClearAll, text="No", command=abort)
+		acaMainLabel.pack(padx=10, pady=2)
+		acaSecondLabel.pack(padx=10, pady=2)
+		acaYesBtn.pack(fill=X, padx=10, pady=2)
+		acaNoBtn.pack(fill=X, padx=10, pady=2)
+		askClearAll.mainloop()
+		
 
 	def makeDataDir(self):
 		print "Creating a new data directory..."
