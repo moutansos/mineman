@@ -428,6 +428,9 @@ class M (object):
 
 				mainCfg.read(datadir+"\\main.cfg")
 				mainCfg.set("data", "backupslot", "<yes>")
+				with open(datadir+"\\main.conf", 'wb') as configfile:
+					mainCfg.write(configfile)
+				DataOrigin.config(text="Original Slot:     <Filled>")
 			except:
 				print "An eror occured backing up the original minecraft data. Is there any data to back up?"
 
@@ -644,6 +647,7 @@ def mainprog():
 	#Backup menu++++++++++++++++(Some menu options are being replaced.)
 	backupmenu=Menu(menubar, tearoff=0)
 	backupmenu.add_command(label="Backup original minecraft data", command=m.backupOriginal)
+	backupmenu.add_command(label="Restore original minecraft data", command=m.restoreOriginal)
 	#backupmenu.add_command(label="Backup one slot to file", command=m.empty)
 	backupmenu.add_command(label="Backup all slots to file", command=m.empty)
 	#backupmenu.add_command(label="Save launcher From list", command=m.empty)
@@ -654,8 +658,9 @@ def mainprog():
 	menubar.add_cascade(label="Backup", menu=backupmenu)
 
 	optionsmenu=Menu(menubar, tearoff=0)
-	optionsmenu.add_command(label="Edit Launchers", command=m.empty)
+	#optionsmenu.add_command(label="Edit Launchers", command=m.empty)
 	#optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
+
 	optionsmenu.add_command(label="Delete Data", command=m.rmDataDir)
 	menubar.add_cascade(label="Options", menu=optionsmenu)
 
@@ -698,18 +703,24 @@ def mainprog():
 	dataslot3Name=mainCfg.get("data", "slot3Name")
 	dataslot4Name=mainCfg.get("data", "slot4Name")
 	dataslot5Name=mainCfg.get("data", "slot5Name")
+	if mainCfg.get("data", "backupslot") == "<yes>":
+		originalDataName="<Filled>"
+	else:
+		originalDataName="<Empty>"
 	global DataVar
 	global Data1
 	global Data2
 	global Data3
 	global Data4
 	global Data5
+	global DataOrigin
 	DataVar=IntVar()
 	Data1=Radiobutton(dataFrame, text="Data 1 Slot:     "+dataslot1Name, variable=DataVar, value=1)
 	Data2=Radiobutton(dataFrame, text="Data 2 Slot:     "+dataslot2Name, variable=DataVar, value=2)
 	Data3=Radiobutton(dataFrame, text="Data 3 Slot:     "+dataslot3Name, variable=DataVar, value=3)
 	Data4=Radiobutton(dataFrame, text="Data 4 Slot:     "+dataslot4Name, variable=DataVar, value=4)
 	Data5=Radiobutton(dataFrame, text="Data 5 Slot:     "+dataslot5Name, variable=DataVar, value=5)
+	DataOrigin=Radiobutton(dataFrame, text="Original Slot:     "+originalDataName, variable=DataVar, value=6)
 
 
 	controlFrame.pack(side=BOTTOM, fill=X, padx=5, pady=5)
@@ -731,6 +742,7 @@ def mainprog():
 	Data3.pack(padx=20, pady=1, anchor=W)
 	Data4.pack(padx=20, pady=1, anchor=W)
 	Data5.pack(padx=20, pady=1, anchor=W)
+	DataOrigin.pack(padx=20, pady=1, anchor=W)
 
 	mainwin.config(menu=menubar)
 	mainwin.mainloop()
