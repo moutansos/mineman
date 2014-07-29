@@ -154,6 +154,8 @@ class M (object):
 		else:
 			os.system(launtostart)
 
+	def startFMthread(self):
+		self.empty()
 
 
 	## ----- SLOT SPECIFIC FUNCITONS.
