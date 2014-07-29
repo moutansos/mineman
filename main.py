@@ -136,7 +136,8 @@ class M (object):
 	def deleteDataSlotSpec5(self):
 		self.empty()
 
-
+	def startFMthread(self):
+		self.empty()
 
 	def startlauncher(self):
 		print "Starting launcher..."
@@ -153,10 +154,6 @@ class M (object):
 			print "ERROR: No launcher is in that slot!"
 		else:
 			os.system(launtostart)
-
-	def startFMthread(self):
-		self.empty()
-
 
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
