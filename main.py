@@ -444,7 +444,24 @@ class M (object):
 			backupTheOriginal()
 
 	def restoreOriginal(self):
-		m.empty()
+		print "Restoring original..."
+		mainCfg.read(datadir+"\\main.cfg")
+		if mainCfg.get("data", "backupslot") == "<no>":
+			print "You can't restore the original data folder... You never made a backup!"
+		elif mainCfg.get("data", "backupslot") =="<yes>":
+			print "Proceeding..."
+			try:
+				try:
+					shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
+					print "Cleared the space..."
+				except:
+					pass
+				shutil.copytree(datadir+"\\dataslots\\originalbackup\\.minecraft", homedir+"\\AppData\\Roaming\\.minecraft")
+				print "Restored."
+			except:
+				print "An error occured."
+		else:
+			print "There was an error. The config file might be misconfigured or nonexistent."
 
 	def deleteOriginal(self):
 		m.empty()
