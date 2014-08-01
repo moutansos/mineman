@@ -540,6 +540,7 @@ class M (object):
 			if not os.path.exists(datadir):
 				print "Data directory not found."
 				self.makeDataDir()
+				print "Data directories created. If program fails please restart."
 			else:
 				pass
 		else:
