@@ -495,6 +495,28 @@ class M (object):
 		acaYesBtn.pack(fill=X, padx=10, pady=2)
 		acaNoBtn.pack(fill=X, padx=10, pady=2)
 		askClearAll.mainloop()
+
+	def rmMinecraftDir(self):
+		print "Removing Minecraft data directory..."
+		def clear():
+			askClearAll.destroy()
+			shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
+			print "Directory removed."
+		def abort():
+			askClearAll.destroy()
+			print "Delete was canceled."
+
+		askClearAll=Tk()
+		askClearAll.title("Are you sure?")
+		acaMainLabel=Label(askClearAll, text="Are you sure you want to clear the entire Minecraft data directory?")
+		acaSecondLabel=Label(askClearAll, text="(This cannot be undone and it will delete your minecraft data if any is stored in the original folder.)")
+		acaYesBtn=Button(askClearAll, text="Yes", command=clear)
+		acaNoBtn=Button(askClearAll, text="No", command=abort)
+		acaMainLabel.pack(padx=10, pady=2)
+		acaSecondLabel.pack(padx=10, pady=2)
+		acaYesBtn.pack(fill=X, padx=10, pady=2)
+		acaNoBtn.pack(fill=X, padx=10, pady=2)
+		askClearAll.mainloop()
 		
 
 	def makeDataDir(self):
@@ -677,7 +699,8 @@ def mainprog():
 	#optionsmenu.add_command(label="Edit Launchers", command=m.empty)
 	#optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
 
-	optionsmenu.add_command(label="Delete Data", command=m.rmDataDir)
+	optionsmenu.add_command(label="Delete Mineman Data", command=m.rmDataDir)
+	optionsmenu.add_command(label="Delete Minecraft Data", command=m.rmMinecraftDir)
 	menubar.add_cascade(label="Options", menu=optionsmenu)
 
 	helpmenu=Menu(menubar, tearoff=0)
