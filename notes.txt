@@ -15,14 +15,14 @@ mineman - 1.0 Notes
 	**On the bottom is play and exit buttons
 	**Delete launcher function
 	**Delete data folder function
-		--Add warning box for delete data function
+		**Add warning box for delete data function
 	**Add way to rename launchers
 	--Better error reporting and messaging. A spot on the Tk window could be used for notification.
 		--Errors
 		--Copying and compressing notifications
 		--General status notificaitons
 	**Update GUI as slots are updated
-	--Backup slot managment(Delete)
+	**Backup slot managment(Delete)
 	--Setting to start w/o the console
 
 
@@ -46,7 +46,7 @@ mineman - 1.0 Notes
 	--Start Launchers/Data funciton
 		--Loading bar for data directory moving.
 		--Move data files
-		--Start Minecraft Launcher
+		**Start Minecraft Launcher
 	--Backup Folder elsewhere on the hard drive.
 		--Smart clean backups that are of the same data
 	--Add way to copy a data directory in one slot to a new slot
