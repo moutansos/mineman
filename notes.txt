@@ -50,3 +50,4 @@ mineman - 1.0 Notes
 	--Backup Folder elsewhere on the hard drive.
 		--Smart clean backups that are of the same data
 	--Add way to copy a data directory in one slot to a new slot
+	--Threading of file management functions for smoother GUI
