@@ -166,6 +166,7 @@ class M (object):
 				dataslot="original"
 			else:
 				pass
+			dattostart=mainCfg.get("data", "slot"+dataslot)
 			print "Data specified is in slot "+dataslot
 
 		except:
@@ -179,10 +180,26 @@ class M (object):
 			if launtostart=="<blank>":
 				print "ERROR: No launcher is in that slot!"
 			else:
-				print "Data loading not implimented."
-				print "Starting launcher..."
-				os.system(launtostart)
-				print "Launcher stopped."
+				print dataslot
+				if dattostart=="<Empty>":
+					print "ERROR: No data in that slot!"
+				else:
+					try:
+						print "Clearing data out of the way... (INCLUDING DATA NOT SAVED IN BACKUP)"
+						shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
+					except:
+						pass
+					shutil.copytree(datadir+"\\dataslots\\slot"+dataslot+"\\.minecraft", homedir+"\\AppData\\Roaming\\.minecraft")
+					print "Starting launcher..."
+					os.system(launtostart)
+					print "Launcher stopped."
+					print "Moving back data..."
+					shutil.rmtree(datadir+"\\dataslots\\slot"+dataslot+"\\.minecraft")
+					shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", datadir+"\\dataslots\\slot"+dataslot+"\\.minecraft")
+					shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
+
+
+
 
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
@@ -450,12 +467,12 @@ class M (object):
 		def backupTheOriginal():
 			print "Copying folder...."
 			try:
-				shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", datadir+"\\dataslots\\originalbackup\\.minecraft")
+				shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", datadir+"\\dataslots\\slotoriginal\\.minecraft")
 				print "Removing original directory..."
 				shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
 
 				mainCfg.read(datadir+"\\main.cfg")
-				mainCfg.set("data", "backupslot", "<yes>")
+				mainCfg.set("data", "slotoriginal", "<yes>")
 				with open(datadir+"\\main.conf", 'wb') as configfile:
 					mainCfg.write(configfile)
 				DataOrigin.config(text="Original Slot:     <Filled>")
@@ -465,7 +482,7 @@ class M (object):
 			print "Finished."
 
 		mainCfg.read(datadir+"\\main.cfg")
-		if mainCfg.get("data", "backupslot")=="<yes>":
+		if mainCfg.get("data", "slotoriginal")=="<yes>":
 			print "The original backup slot is already filled."
 		else:
 			print "Backup slot clear."
@@ -474,9 +491,9 @@ class M (object):
 	def restoreOriginal(self):
 		print "Restoring original..."
 		mainCfg.read(datadir+"\\main.cfg")
-		if mainCfg.get("data", "backupslot") == "<no>":
+		if mainCfg.get("data", "slotoriginal") == "<no>":
 			print "You can't restore the original data folder... You never made a backup!"
-		elif mainCfg.get("data", "backupslot") =="<yes>":
+		elif mainCfg.get("data", "slotoriginal") =="<yes>":
 			print "Proceeding..."
 			try:
 				try:
@@ -484,7 +501,7 @@ class M (object):
 					print "Cleared the space..."
 				except:
 					pass
-				shutil.copytree(datadir+"\\dataslots\\originalbackup\\.minecraft", homedir+"\\AppData\\Roaming\\.minecraft")
+				shutil.copytree(datadir+"\\dataslots\\slotoriginal\\.minecraft", homedir+"\\AppData\\Roaming\\.minecraft")
 				print "Restored."
 			except:
 				print "An error occured."
@@ -497,7 +514,6 @@ class M (object):
 	def backupSingleSlot(self):
 		print "Backup single slot started."
 		m.empty()
-
 
 	def exitProg(self):
 		print "Exiting program...."
@@ -546,7 +562,6 @@ class M (object):
 		acaYesBtn.pack(fill=X, padx=10, pady=2)
 		acaNoBtn.pack(fill=X, padx=10, pady=2)
 		askClearAll.mainloop()
-		
 
 	def makeDataDir(self):
 		print "Creating a new data directory..."
@@ -558,7 +573,7 @@ class M (object):
 		os.makedirs(datadir+"\\dataslots\slot3")
 		os.makedirs(datadir+"\\dataslots\slot4")
 		os.makedirs(datadir+"\\dataslots\slot5")
-		os.makedirs(datadir+"\\dataslots\originalbackup")
+		os.makedirs(datadir+"\\dataslots\slotoriginal")
 		shutil.copyfile("default.conf", datadir+"\\main.conf")
 		print "Created sucessfuly.\n"
 
@@ -772,7 +787,7 @@ def mainprog():
 	dataslot3Name=mainCfg.get("data", "slot3Name")
 	dataslot4Name=mainCfg.get("data", "slot4Name")
 	dataslot5Name=mainCfg.get("data", "slot5Name")
-	if mainCfg.get("data", "backupslot") == "<yes>":
+	if mainCfg.get("data", "slotoriginal") == "<yes>":
 		originalDataName="<Filled>"
 	else:
 		originalDataName="<Empty>"
