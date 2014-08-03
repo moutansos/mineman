@@ -137,23 +137,52 @@ class M (object):
 		self.empty()
 
 	def startFMthread(self):
+		#Space for multithreading for file management. Provides a better and more stable way to manage files
 		self.empty()
 
 	def startlauncher(self):
-		print "Starting launcher..."
+		print "Running file and variable checks..."
+		mainCfg.read(datadir+"\\main.conf")
 		launcherslot=""
+		dataslot=""
+		taskfail=0
 		try:
 			launcherslot=str(LaunVar.get())
+			if launcherslot=="0":
+				fail
+			else:
+				pass
+			print "Launcher specified is in slot "+launcherslot
+			launtostart=mainCfg.get("launchers", "slot"+launcherslot)
 		except:
 			print "ERROR: No launcher specified."
-		print "Launcher specified is in slot"+launcherslot
-		mainCfg.read(datadir+"\\main.conf")
-		launtostart=mainCfg.get("launchers", "slot"+launcherslot)
-		print launtostart
-		if launtostart=="<blank>":
-			print "ERROR: No launcher is in that slot!"
+			taskfail=1
+
+		try:
+			dataslot=str(DataVar.get())
+			if dataslot=="0":
+				fail
+			elif dataslot=="6":
+				dataslot="original"
+			else:
+				pass
+			print "Data specified is in slot "+dataslot
+
+		except:
+			print "ERROR: No data specified."
+			taskfail=1
+		
+		if taskfail==1:
+			print "Starting failed."
 		else:
-			os.system(launtostart)
+			print launtostart
+			if launtostart=="<blank>":
+				print "ERROR: No launcher is in that slot!"
+			else:
+				print "Data loading not implimented."
+				print "Starting launcher..."
+				os.system(launtostart)
+				print "Launcher stopped."
 
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
@@ -607,9 +636,9 @@ def mainprog():
 	menubar=Menu(mainwin)
 
 	filemenu=Menu(menubar, tearoff=0)
-	filemenu.add_command(label="Add a Launcher", command=m.empty)
-	filemenu.add_command(label="Save Config", command=m.empty)
-	filemenu.add_separator()
+	#filemenu.add_command(label="Add a Launcher", command=m.empty)
+	#filemenu.add_command(label="Save Config", command=m.empty)
+	#filemenu.add_separator()
 	filemenu.add_command(label="Exit", command=mainwin.destroy)
 	menubar.add_cascade(label="File", menu=filemenu)
 
