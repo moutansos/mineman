@@ -115,26 +115,26 @@ class M (object):
 		self.deleteLauncherSlotSpec("5")
 
 	def renameDataSlotSpec1(self):
-		self.empty()
+		self.renameDataSlotSpec("1")
 	def renameDataSlotSpec2(self):
-		self.empty()
+		self.renameDataSlotSpec("2")
 	def renameDataSlotSpec3(self):
-		self.empty()
+		self.renameDataSlotSpec("3")
 	def renameDataSlotSpec4(self):
-		self.empty()
+		self.renameDataSlotSpec("4")
 	def renameDataSlotSpec5(self):
-		self.empty()
+		self.renameDataSlotSpec("5")
 
 	def deleteDataSlotSpec1(self):
-		self.empty()
+		self.deleteDataSlotSpec("1")
 	def deleteDataSlotSpec2(self):
-		self.empty()
+		self.deleteDataSlotSpec("2")
 	def deleteDataSlotSpec3(self):
-		self.empty()
+		self.deleteDataSlotSpec("3")
 	def deleteDataSlotSpec4(self):
-		self.empty()
+		self.deleteDataSlotSpec("4")
 	def deleteDataSlotSpec5(self):
-		self.empty()
+		self.deleteDataSlotSpec("5")
 
 	def startFMthread(self):
 		#Space for multithreading for file management. Provides a better and more stable way to manage files
@@ -488,11 +488,7 @@ class M (object):
 			GRDmain.mainloop()
 
 	def deleteDataSlotSpec(self, datanum):
-		pass
-		
-
-
-
+		self.empty
 
 	## END SLOT SPECIFIC FUNCTIONS.
 
@@ -544,10 +540,6 @@ class M (object):
 			print "There was an error. The config file might be misconfigured or nonexistent."
 
 	def deleteOriginal(self):
-		m.empty()
-
-	def backupSingleSlot(self):
-		print "Backup single slot started."
 		m.empty()
 
 	def exitProg(self):
