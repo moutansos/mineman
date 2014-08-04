@@ -198,9 +198,6 @@ class M (object):
 					shutil.copytree(homedir+"\\AppData\\Roaming\\.minecraft", datadir+"\\dataslots\\slot"+dataslot+"\\.minecraft")
 					shutil.rmtree(homedir+"\\AppData\\Roaming\\.minecraft")
 
-
-
-
 	## ----- SLOT SPECIFIC FUNCITONS.
 	def addLauncherSlotSpec(self, launchnum):
 		#Add safegaurds for slots already filled.
@@ -450,7 +447,45 @@ class M (object):
 			AOWSmain.mainloop()
 
 	def renameDataSlotSpec(self, datanum):
-		pass
+		print "Renaming data..."
+		mainCfg.read(datadir+"\\main.conf")
+		if mainCfg.get("data", "slot"+datanum+"Name") == "<Empty>":
+			print "You can't rename an empty data slot!"
+		else:
+			def GRDS():
+				nametochangeto=GRDmainEntry.get()
+				if nametochangeto=="<Empty>":
+					print "You can't use that name sorry."
+				else:
+					GRDmain.destroy()
+					print "Renaming data slot "+datanum
+					mainCfg.set("data", "slot"+datanum+"Name", nametochangeto)
+					with open(datadir+"\\main.conf", 'wb') as configfile:
+							mainCfg.write(configfile)
+						print "Name is changed."
+						if datanum=="1":
+							Data1.config(text="Data 1 Slot:     "+nametochangeto)
+						elif datanum=="2":
+							Data2.config(text="Data 2 Slot:     "+nametochangeto)
+						elif datanum=="3":
+							Data3.config(text="Data 3 Slot:     "+nametochangeto)
+						elif datanum=="4":
+							Data4.config(text="Data 4 Slot:     "+nametochangeto)
+						elif datanum=="5":
+							Data5.config(text="Data 5 Slot:     "+nametochangeto)
+						else:
+							print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
+
+
+			GRDmain=Tk()
+			GRDmain.title("Rename data slot")
+			GRDmainLabel=Label(GRDmain, text="Provide a new name for slot number "+datanum)
+			GRDmainEntry=Entry(GRDmain)
+			GRDmainBtn=Button(GRDmain, text="Ok", command=GRDS)
+			GRDmainLabel.pack(padx=10, pady=2)
+			GRDmainEntry.pack(expand=1, padx=10, pady=2)
+			GRDmainBtn.pack(padx=10, pady=2)
+			GRDmain.mainloop()
 
 	def deleteDataSlotSpec(self, datanum):
 		pass
