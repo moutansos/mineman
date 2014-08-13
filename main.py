@@ -423,28 +423,26 @@ class M (object):
 			ADSmainButton.pack(padx=20, pady=10)
 			addDataWin.mainloop()
 
+
 		def AbortNewData():
-			AOWSmain.destroy()
-			print "Aborting creating or writing a new data slot."
-
-
-
+				AOWSmain.destroy()
+				print "Aborting creating or writing a new data slot."
 		mainCfg.read(datadir+"\\main.conf")
 		if mainCfg.get("data", "slot"+datanum+"Name") == "<Empty>":
 			print "Using empty slot."
 		else:
 			print "WARNING: There's data there!"
-			AOWSmain=Tk()
-			AOWSmain.title("Overwright this slot")
-			AOWSmainLabel=Label(AOWSmain, text="Are you sure you want to overwright slot"+datanum+"?")
+		AOWSmain=Tk()
+		AOWSmain.title("Overwright this slot")
+		AOWSmainLabel=Label(AOWSmain, text="Are you sure you want to overwright slot"+datanum+"?")
 
-			AOWSyesBtn=Button(AOWSmain, text="Yes", command=writeData)
-			AOWSnoBtn=Button(AOWSmain, text="No", command=AbortNewData)
+		AOWSyesBtn=Button(AOWSmain, text="Yes", command=writeData)
+		AOWSnoBtn=Button(AOWSmain, text="No", command=AbortNewData)
 
-			AOWSmainLabel.pack(padx=10, pady=2)
-			AOWSyesBtn.pack(fill=X, padx=10, pady=2)
-			AOWSnoBtn.pack(fill=X, padx=10, pady=2)
-			AOWSmain.mainloop()
+		AOWSmainLabel.pack(padx=10, pady=2)
+		AOWSyesBtn.pack(fill=X, padx=10, pady=2)
+		AOWSnoBtn.pack(fill=X, padx=10, pady=2)
+		AOWSmain.mainloop()
 
 	def renameDataSlotSpec(self, datanum):
 		print "Renaming data..."
