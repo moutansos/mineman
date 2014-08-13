@@ -462,19 +462,19 @@ class M (object):
 					mainCfg.set("data", "slot"+datanum+"Name", nametochangeto)
 					with open(datadir+"\\main.conf", 'wb') as configfile:
 							mainCfg.write(configfile)
-						print "Name is changed."
-						if datanum=="1":
-							Data1.config(text="Data 1 Slot:     "+nametochangeto)
-						elif datanum=="2":
-							Data2.config(text="Data 2 Slot:     "+nametochangeto)
-						elif datanum=="3":
-							Data3.config(text="Data 3 Slot:     "+nametochangeto)
-						elif datanum=="4":
-							Data4.config(text="Data 4 Slot:     "+nametochangeto)
-						elif datanum=="5":
-							Data5.config(text="Data 5 Slot:     "+nametochangeto)
-						else:
-							print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
+					print "Name is changed."
+					if datanum=="1":
+						Data1.config(text="Data 1 Slot:     "+nametochangeto)
+					elif datanum=="2":
+						Data2.config(text="Data 2 Slot:     "+nametochangeto)
+					elif datanum=="3":
+						Data3.config(text="Data 3 Slot:     "+nametochangeto)
+					elif datanum=="4":
+						Data4.config(text="Data 4 Slot:     "+nametochangeto)
+					elif datanum=="5":
+						Data5.config(text="Data 5 Slot:     "+nametochangeto)
+					else:
+						print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
 
 			GRDmain=Tk()
@@ -770,7 +770,6 @@ def mainprog():
 	optionsmenu=Menu(menubar, tearoff=0)
 	#optionsmenu.add_command(label="Edit Launchers", command=m.empty)
 	#optionsmenu.add_command(label="Edit Data Slots", command=m.empty)
-
 	optionsmenu.add_command(label="Delete Mineman Data", command=m.rmDataDir)
 	optionsmenu.add_command(label="Delete Minecraft Data", command=m.rmMinecraftDir)
 	menubar.add_cascade(label="Options", menu=optionsmenu)
