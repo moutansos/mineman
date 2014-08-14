@@ -17,7 +17,7 @@ import zipfile
 
 osName="Windows"
 homedir=os.path.expanduser("~")
-datadir=homedir+"\\AppData\\Roaming\\mineman"
+datadir=os.getenv('APPDATA')+"\\mineman"
 mainCfg=ConfigParser.SafeConfigParser()
 mainCfg.read(datadir+"\\main.conf")
 
@@ -28,7 +28,7 @@ class M (object):
 	def empty(self):
 		print "Unimplimented option."
 
-	def zip_folder(folder_path, output_path):
+	def zip_folder(self, folder_path, output_path):
 	    """Zip the contents of an entire folder (with that folder included
 	    in the archive). Empty subfolders will be included in the archive
 	    as well.
