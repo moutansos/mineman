@@ -66,7 +66,6 @@ class M(object):
         finally:
             zip_file.close()
 
-
     # # BACKEND FUNCTIONS ====================================
 
     def start_file_management_thread(self):
@@ -176,7 +175,6 @@ class M(object):
                     else:
                         print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
-
             getNameDiag = Tk()
             getNameDiag.title("Input Launcher Name")
             GNDmainLabel = Label(getNameDiag, text="Please input a launcher name: ")
@@ -221,7 +219,6 @@ class M(object):
                         else:
                             print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
 
-
             GRWmain = Tk()
             GRWmain.title("New name")
             GRWmainLabel = Label(GRWmain, text="Please specify the new name for launcher " + launchnum)
@@ -257,7 +254,6 @@ class M(object):
                     Laun5.config(text="Launcher 5 Slot:      <Empty>")
                 else:
                     print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
-
 
             def AbortDel():
                 GDSmain.destroy()
@@ -340,14 +336,13 @@ class M(object):
                     ANOOmainWin = Tk()
                     ANOOmainWin.title("New slot or choose data file?")
                     ANOOmainLabel = Label(ANOOmainWin,
-                                          text="Is this a new slot or do you have an old minecraft directory for this slot?")
+                                          text="Is this a new slot or do you have old mineraft data for this slot?")
                     ANOOnewBtn = Button(ANOOmainWin, text="New", command=newDataSlot)
                     ANOOoldBtn = Button(ANOOmainWin, text="Old", command=oldDataSlot)
                     ANOOmainLabel.pack(padx=20, pady=10)
                     ANOOnewBtn.pack(padx=20, pady=10)
                     ANOOoldBtn.pack(padx=20, pady=10)
                     ANOOmainWin.mainloop()
-
 
             addDataWin = Tk()
             addDataWin.title("Specify a name for this slot.")
@@ -358,7 +353,6 @@ class M(object):
             ADSmainEntry.pack(padx=20, pady=10, fill=X)
             ADSmainButton.pack(padx=20, pady=10)
             addDataWin.mainloop()
-
 
         def AbortNewData():
             AOWSmain.destroy()
@@ -410,7 +404,6 @@ class M(object):
                         Data5.config(text="Data 5 Slot:     " + nametochangeto)
                     else:
                         print "INTERNAL ERROR: Not quite sure what happened, but the gui could not be updated."
-
 
             GRDmain = Tk()
             GRDmain.title("Rename data slot")
@@ -525,7 +518,8 @@ class M(object):
         askClearAll.title("Are you sure?")
         acaMainLabel = Label(askClearAll, text="Are you sure you want to clear the entire Minecraft data directory?")
         acaSecondLabel = Label(askClearAll,
-                               text="(This cannot be undone and it will delete your minecraft data if any is stored in the original folder.)")
+                               text="(This cannot be undone and it will delete your"
+                                    " minecraft data if any is stored in the original folder.)")
         acaYesBtn = Button(askClearAll, text="Yes", command=clear)
         acaNoBtn = Button(askClearAll, text="No", command=abort)
         acaMainLabel.pack(padx=10, pady=2)
@@ -559,7 +553,8 @@ class M(object):
             else:
                 pass
         else:
-            print "Error. No data directory could be found due to unknown OS. Data directory being written in program folder."
+            print "Error. No data directory could be found due to unknown OS. " \
+                  "Data directory being written in program folder."
 
         print mainCfg.get("startup", "version")
         if mainCfg.get("startup", "debug") == "yes":
@@ -597,7 +592,8 @@ class M(object):
             data5 = mainCfg.get("data", "slot5Name")
             print "Dataslot5 Loaded.\n All dataslots sucessfuly loaded.\n\n"
         except:
-            print "One or more config values was not found. Program will probably crash. Delete datafolder and start over."
+            print "One or more config values was not found. " \
+                  "Program will probably crash. Delete datafolder and start over."
 
 
 m = M()
@@ -616,7 +612,6 @@ def mainprog():
     mainwin = Tk()
     mainwin.title("MineMan 1.0")
     mainwin.geometry("500x350")
-
 
     # Menu Funcitons ======================================
     menubar = Menu(mainwin)
@@ -705,7 +700,7 @@ def mainprog():
     # backupmenu.add_command(label="Backup one slot to file", command=m.empty)
     # backupmenu.add_command(label="Save launcher From list", command=m.empty)
     backupmenu.add_separator()
-    #backupmenu.add_command(label="Import one slot", command=m.empty)
+    # backupmenu.add_command(label="Import one slot", command=m.empty)
     backupmenu.add_command(label="Backup all slots to file", command=m.empty)
     backupmenu.add_command(label="Import all slots", command=m.empty)
     #backupmenu.add_command(label="Restore original minecraft data", command=m.restoreOriginal)
