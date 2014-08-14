@@ -24,6 +24,6 @@ _________________________
 2. Then download MineMan from github as a zip file  
 3. Extract the zip file to a location where you want it.  
 4. start the app by double clicking the file: main.py  
-5. Backup your original minecraft data in the options menu!  
+5. Backup your original Minecraft data in the options menu!
 	It will be overwritten otherwise!    
 6. Please keep in mind this program is in active development  
