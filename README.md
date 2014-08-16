@@ -12,10 +12,10 @@ Please keep in mind this application is a work in progress at the moment. Not al
 This program is released as public domain. The code can be used for whatever purpose needed.
 
 If you'd like to donate to the development please use this bitcoin address:
-1N5zrgrrogvSF6w6jwrgw5sKatcx69y13C  
+12j9Htam8WV9geGs1HaA3uhKoZfmMDyokU  
   
 Or the dogecoin address here:  
-DBGQxtrQu3FBWM9eF98EHGomXHmAt62bGa  
+DRvX9GtMY8Ad2eGXnLwucFEC9UfzQyM2Wi  
   
 INSTALLATION
 _________________________
