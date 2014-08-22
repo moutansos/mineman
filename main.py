@@ -18,8 +18,8 @@ import zipfile
 osName = "Windows"
 home_dir = os.path.expanduser("~")
 data_dir = os.getenv('APPDATA') + "\\mineman"
-mainCfg = ConfigParser.SafeConfigParser()
-mainCfg.read(data_dir + "\\main.conf")
+cfg_main = ConfigParser.SafeConfigParser()
+cfg_main.read(data_dir + "\\main.conf")
 
 
 class M(object):
@@ -34,6 +34,7 @@ class M(object):
         in the archive). Empty subfolders will be included in the archive
         as well.
         """
+        global zip_file
         parent_folder = os.path.dirname(folder_path)
         # Retrieve the paths of the folder contents.
         contents = os.walk(folder_path)
@@ -74,9 +75,9 @@ class M(object):
 
     def start_launcher(self):
         print "Running file and variable checks..."
-        mainCfg.read(data_dir + "\\main.conf")
+        cfg_main.read(data_dir + "\\main.conf")
         launcherslot = ""
-        dataslot = ""
+        data_slot = ""
         taskfail = 0
         try:
             launcherslot = str(LaunVar.get())
@@ -85,21 +86,23 @@ class M(object):
             else:
                 pass
             print "Launcher specified is in slot " + launcherslot
-            launtostart = mainCfg.get("launchers", "slot" + launcherslot)
+            launtostart = cfg_main.get("launchers", "slot" + launcherslot)
         except:
             print "ERROR: No launcher specified."
             taskfail = 1
 
         try:
-            dataslot = str(DataVar.get())
-            if dataslot == "0":
-                fail
-            elif dataslot == "6":
-                dataslot = "original"
-            else:
+            data_slot = str(DataVar.get())
+            if data_slot == "0":
+                raise Exception("Invalid Data Slot")
+            elif int(data_slot) < 0 or int(data_slot) > 5:
                 pass
-            dattostart = mainCfg.get("data", "slot" + dataslot)
-            print "Data specified is in slot " + dataslot
+            elif data_slot == "6":
+                data_slot = "original"
+            else:
+                print "ERROR. The config file seems to be not configured correctly."
+            dattostart = cfg_main.get("data", "slot" + data_slot)
+            print "Data specified is in slot " + data_slot
 
         except:
             print "ERROR: No data specified."
@@ -112,7 +115,7 @@ class M(object):
             if launtostart == "<blank>":
                 print "ERROR: No launcher is in that slot!"
             else:
-                print dataslot
+                print data_slot
                 if dattostart == "<Empty>":
                     print "ERROR: No data in that slot!"
                 else:
@@ -121,15 +124,15 @@ class M(object):
                         shutil.rmtree(home_dir + "\\AppData\\Roaming\\.minecraft")
                     except:
                         pass
-                    shutil.copytree(data_dir + "\\dataslots\\slot" + dataslot + "\\.minecraft",
+                    shutil.copytree(data_dir + "\\dataslots\\slot" + data_slot + "\\.minecraft",
                                     home_dir + "\\AppData\\Roaming\\.minecraft")
                     print "Starting launcher..."
                     os.system(launtostart)
                     print "Launcher stopped."
                     print "Moving back data..."
-                    shutil.rmtree(data_dir + "\\dataslots\\slot" + dataslot + "\\.minecraft")
+                    shutil.rmtree(data_dir + "\\dataslots\\slot" + data_slot + "\\.minecraft")
                     shutil.copytree(home_dir + "\\AppData\\Roaming\\.minecraft",
-                                    data_dir + "\\dataslots\\slot" + dataslot + "\\.minecraft")
+                                    data_dir + "\\dataslots\\slot" + data_slot + "\\.minecraft")
                     shutil.rmtree(home_dir + "\\AppData\\Roaming\\.minecraft")
 
     # # ----- SLOT SPECIFIC FUNCITONS.
@@ -156,11 +159,11 @@ class M(object):
                     print "Copying launcher to launcher directory."
                     shutil.copyfile(launtoadd, data_dir + "\\launchers\\slot" + launchnum + ".jar")
 
-                    mainCfg.set("launchers", lauchnumLong, data_dir + "\\launchers\\slot" + launchnum + ".jar")
-                    mainCfg.set("launchers", lauchnumLong + "Name", LaunName)
+                    cfg_main.set("launchers", lauchnumLong, data_dir + "\\launchers\\slot" + launchnum + ".jar")
+                    cfg_main.set("launchers", lauchnumLong + "Name", LaunName)
                     print "Saving changes to config file."
                     with open(data_dir + "\\main.conf", 'wb') as configfile:
-                        mainCfg.write(configfile)
+                        cfg_main.write(configfile)
                     # exec("Data"+launchnum+".config('text="+LaunName+"')")
                     if launchnum == "1":
                         Laun1.config(text="Launcher 1 Slot:     " + LaunName)
@@ -187,14 +190,14 @@ class M(object):
 
     def renameLauncherSlotSpec(self, launchnum):
         print "Renaming launcher " + launchnum
-        mainCfg.read(data_dir + "\\main.conf")
-        if mainCfg.get("launchers", "slot" + launchnum + "Name") == "<Empty>":
+        cfg_main.read(data_dir + "\\main.conf")
+        if cfg_main.get("launchers", "slot" + launchnum + "Name") == "<Empty>":
             print "Empty Slot! You can't rename an empty slot!"
         else:
 
             def GRWSRL():
-                mainCfg.read(data_dir + "\\main.conf")
-                if mainCfg.get("launchers", "slot" + launchnum) == "<blank>":
+                cfg_main.read(data_dir + "\\main.conf")
+                if cfg_main.get("launchers", "slot" + launchnum) == "<blank>":
                     print "You can't rename an empty slot!"
                 else:
                     nametochangeto = GRWmainEntry.get()
@@ -202,9 +205,9 @@ class M(object):
                         print "ERROR: You cant use that name."
                     else:
                         GRWmain.destroy()
-                        mainCfg.set("launchers", "slot" + launchnum + "Name", nametochangeto)
+                        cfg_main.set("launchers", "slot" + launchnum + "Name", nametochangeto)
                         with open(data_dir + "\\main.conf", 'wb') as configfile:
-                            mainCfg.write(configfile)
+                            cfg_main.write(configfile)
                         print "Name is changed."
                         if launchnum == "1":
                             Laun1.config(text="Launcher 1 Slot:     " + nametochangeto)
@@ -231,16 +234,16 @@ class M(object):
 
     def deleteLauncherSlotSpec(self, launchnum):
         print "Deleting launcher " + launchnum
-        mainCfg.read(data_dir + "\\main.conf")
-        if mainCfg.get("launchers", "slot" + launchnum) == "<blank>":
+        cfg_main.read(data_dir + "\\main.conf")
+        if cfg_main.get("launchers", "slot" + launchnum) == "<blank>":
             print "This slot is empty! You can't delete an empty slot!"
         else:
             def GDSADS():
                 GDSmain.destroy()
-                mainCfg.set("launchers", "slot" + launchnum, "<blank>")
-                mainCfg.set("launchers", "slot" + launchnum + "Name", "<Empty>")
+                cfg_main.set("launchers", "slot" + launchnum, "<blank>")
+                cfg_main.set("launchers", "slot" + launchnum + "Name", "<Empty>")
                 with open(data_dir + "\\main.conf", 'wb') as configfile:
-                    mainCfg.write(configfile)
+                    cfg_main.write(configfile)
                 os.remove(data_dir + "\\launchers\\slot" + launchnum + ".jar")
                 if launchnum == "1":
                     Laun1.config(text="Launcher 1 Slot:      <Empty>")
@@ -311,10 +314,10 @@ class M(object):
                         except:
                             pass
                         os.mkdir(data_dir + "\\dataslots\\slot" + datanum + "\\.minecraft")
-                        mainCfg.set("data", slotNumber, DataName)
+                        cfg_main.set("data", slotNumber, DataName)
                         print "Saving changes to config file."
                         with open(data_dir + "\\main.conf", 'wb') as configfile:
-                            mainCfg.write(configfile)
+                            cfg_main.write(configfile)
                         updateDataGUI()
 
                     def oldDataSlot():
@@ -327,10 +330,10 @@ class M(object):
                             pass
                         print "Copying data directory..."
                         shutil.copytree(datatoget, data_dir + "\\dataslots\\slot" + datanum + "\\.minecraft")
-                        mainCfg.set("data", slotNumber, DataName)
+                        cfg_main.set("data", slotNumber, DataName)
                         print "Saving changes to config file."
                         with open(data_dir + "\\main.conf", 'wb') as configfile:
-                            mainCfg.write(configfile)
+                            cfg_main.write(configfile)
                         updateDataGUI()
 
                     ANOOmainWin = Tk()
@@ -358,8 +361,8 @@ class M(object):
             AOWSmain.destroy()
             print "Aborting creating or writing a new data slot."
 
-        mainCfg.read(data_dir + "\\main.conf")
-        if mainCfg.get("data", "slot" + datanum + "Name") == "<Empty>":
+        cfg_main.read(data_dir + "\\main.conf")
+        if cfg_main.get("data", "slot" + datanum + "Name") == "<Empty>":
             print "Using empty slot."
         else:
             print "WARNING: There's data there!"
@@ -377,8 +380,8 @@ class M(object):
 
     def renameDataSlotSpec(self, datanum):
         print "Renaming data..."
-        mainCfg.read(data_dir + "\\main.conf")
-        if mainCfg.get("data", "slot" + datanum + "Name") == "<Empty>":
+        cfg_main.read(data_dir + "\\main.conf")
+        if cfg_main.get("data", "slot" + datanum + "Name") == "<Empty>":
             print "You can't rename an empty data slot!"
         else:
             def GRDS():
@@ -388,9 +391,9 @@ class M(object):
                 else:
                     GRDmain.destroy()
                     print "Renaming data slot " + datanum
-                    mainCfg.set("data", "slot" + datanum + "Name", nametochangeto)
+                    cfg_main.set("data", "slot" + datanum + "Name", nametochangeto)
                     with open(data_dir + "\\main.conf", 'wb') as configfile:
-                        mainCfg.write(configfile)
+                        cfg_main.write(configfile)
                     print "Name is changed."
                     if datanum == "1":
                         Data1.config(text="Data 1 Slot:     " + nametochangeto)
@@ -432,18 +435,18 @@ class M(object):
                 print "Removing original directory..."
                 shutil.rmtree(home_dir + "\\AppData\\Roaming\\.minecraft")
 
-                mainCfg.read(data_dir + "\\main.cfg")
-                mainCfg.set("data", "slotoriginal", "<yes>")
+                cfg_main.read(data_dir + "\\main.cfg")
+                cfg_main.set("data", "slotoriginal", "<yes>")
                 with open(data_dir + "\\main.conf", 'wb') as configfile:
-                    mainCfg.write(configfile)
+                    cfg_main.write(configfile)
                 DataOrigin.config(text="Original Slot:     <Filled>")
             except:
                 print "An eror occured backing up the original minecraft data. Is there any data to back up?"
 
             print "Finished."
 
-        mainCfg.read(data_dir + "\\main.cfg")
-        if mainCfg.get("data", "slotoriginal") == "<yes>":
+        cfg_main.read(data_dir + "\\main.cfg")
+        if cfg_main.get("data", "slotoriginal") == "<yes>":
             print "The original backup slot is already filled."
         else:
             print "Backup slot clear."
@@ -451,10 +454,10 @@ class M(object):
 
     def restoreOriginal(self):
         print "Restoring original..."
-        mainCfg.read(data_dir + "\\main.cfg")
-        if mainCfg.get("data", "slotoriginal") == "<no>":
+        cfg_main.read(data_dir + "\\main.cfg")
+        if cfg_main.get("data", "slotoriginal") == "<no>":
             print "You can't restore the original data folder... You never made a backup!"
-        elif mainCfg.get("data", "slotoriginal") == "<yes>":
+        elif cfg_main.get("data", "slotoriginal") == "<yes>":
             print "Proceeding..."
             try:
                 try:
@@ -475,7 +478,7 @@ class M(object):
 
     def exitProg(self):
         print "Exiting program...."
-        mainwin.destroy()
+        main_win.destroy()
 
     def rmDataDir(self):
         print "Removing data directory..."
@@ -556,40 +559,40 @@ class M(object):
             print "Error. No data directory could be found due to unknown OS. " \
                   "Data directory being written in program folder."
 
-        print mainCfg.get("startup", "version")
-        if mainCfg.get("startup", "debug") == "yes":
+        print cfg_main.get("startup", "version")
+        if cfg_main.get("startup", "debug") == "yes":
             debug1 = 1
         else:
             debug1 = 0
 
         try:
             print "\n Loading launchers from config..."
-            launcher1 = mainCfg.get("launchers", "slot1")
-            launcher1Name = mainCfg.get("launchers", "slot1Name")
+            launcher1 = cfg_main.get("launchers", "slot1")
+            launcher1Name = cfg_main.get("launchers", "slot1Name")
             print "Launcher1 Loaded"
-            launcher2 = mainCfg.get("launchers", "slot2")
-            launcher2Name = mainCfg.get("launchers", "slot2Name")
+            launcher2 = cfg_main.get("launchers", "slot2")
+            launcher2Name = cfg_main.get("launchers", "slot2Name")
             print "Launcher2 Loaded"
-            launcher3 = mainCfg.get("launchers", "slot3")
-            launcher3Name = mainCfg.get("launchers", "slot3Name")
+            launcher3 = cfg_main.get("launchers", "slot3")
+            launcher3Name = cfg_main.get("launchers", "slot3Name")
             print "Launcher3 Loaded"
-            launcher4 = mainCfg.get("launchers", "slot4")
-            launcher4Name = mainCfg.get("launchers", "slot4Name")
+            launcher4 = cfg_main.get("launchers", "slot4")
+            launcher4Name = cfg_main.get("launchers", "slot4Name")
             print "Launcher4 Loaded"
-            launcher5 = mainCfg.get("launchers", "slot5")
-            launcer5Name = mainCfg.get("launchers", "slot5Name")
+            launcher5 = cfg_main.get("launchers", "slot5")
+            launcer5Name = cfg_main.get("launchers", "slot5Name")
             print "Launcher5 Loaded"
             print " All launchers loaded sucessfuly.\n\n Proceeding to load data slots."
 
-            data1 = mainCfg.get("data", "slot1Name")
+            data1 = cfg_main.get("data", "slot1Name")
             print "Dataslot1 Loaded."
-            data2 = mainCfg.get("data", "slot2Name")
+            data2 = cfg_main.get("data", "slot2Name")
             print "Dataslot2 Loaded."
-            data3 = mainCfg.get("data", "slot3Name")
+            data3 = cfg_main.get("data", "slot3Name")
             print "Dataslot3 Loaded."
-            data4 = mainCfg.get("data", "slot4Name")
+            data4 = cfg_main.get("data", "slot4Name")
             print "DataSlot4 Loaded."
-            data5 = mainCfg.get("data", "slot5Name")
+            data5 = cfg_main.get("data", "slot5Name")
             print "Dataslot5 Loaded.\n All dataslots sucessfuly loaded.\n\n"
         except:
             print "One or more config values was not found. " \
@@ -609,18 +612,19 @@ def mainprog():
     m.startupChecks()
     print ""
     print "Currently this program is a work in progress. \nSome features may not be implimented yet.\n\n"
-    mainwin = Tk()
-    mainwin.title("MineMan 1.0")
-    mainwin.geometry("500x350")
+    global main_win
+    main_win = Tk()
+    main_win.title("MineMan 1.0")
+    main_win.geometry("500x350")
 
     # Menu Funcitons ======================================
-    menubar = Menu(mainwin)
+    menubar = Menu(main_win)
 
     filemenu = Menu(menubar, tearoff=0)
     # filemenu.add_command(label="Add a Launcher", command=m.empty)
     # filemenu.add_command(label="Save Config", command=m.empty)
     # filemenu.add_separator()
-    filemenu.add_command(label="Exit", command=mainwin.destroy)
+    filemenu.add_command(label="Exit", command=main_win.destroy)
     menubar.add_cascade(label="File", menu=filemenu)
 
     # Launcher menu++++++++++++
@@ -719,18 +723,18 @@ def mainprog():
 
     # =====================================================
 
-    controlFrame = Frame(mainwin)
+    controlFrame = Frame(main_win)
     startLauncherBtn1 = Button(controlFrame, text="Start the Launcher", command=m.start_launcher)
-    exitMineManBtn1 = Button(controlFrame, text="Exit", command=mainwin.destroy)
+    exitMineManBtn1 = Button(controlFrame, text="Exit", command=main_win.destroy)
 
-    launcherFrame = Frame(mainwin)
+    launcherFrame = Frame(main_win)
     launcherLabel = Label(launcherFrame, text="Launchers available:")
-    mainCfg.read(data_dir + "\\main.conf")
-    launcherslot1Name = mainCfg.get("launchers", "slot1Name")
-    launcherslot2Name = mainCfg.get("launchers", "slot2Name")
-    launcherslot3Name = mainCfg.get("launchers", "slot3Name")
-    launcherslot4Name = mainCfg.get("launchers", "slot4Name")
-    launcherslot5Name = mainCfg.get("launchers", "slot5Name")
+    cfg_main.read(data_dir + "\\main.conf")
+    launcherslot1Name = cfg_main.get("launchers", "slot1Name")
+    launcherslot2Name = cfg_main.get("launchers", "slot2Name")
+    launcherslot3Name = cfg_main.get("launchers", "slot3Name")
+    launcherslot4Name = cfg_main.get("launchers", "slot4Name")
+    launcherslot5Name = cfg_main.get("launchers", "slot5Name")
     global LaunVar
     global Laun1
     global Laun2
@@ -745,14 +749,14 @@ def mainprog():
     Laun4 = Radiobutton(launcherFrame, text="Launcher 4 Slot:     " + launcherslot4Name, variable=LaunVar, value=4)
     Laun5 = Radiobutton(launcherFrame, text="Launcher 5 Slot:     " + launcherslot5Name, variable=LaunVar, value=5)
 
-    dataFrame = Frame(mainwin)
+    dataFrame = Frame(main_win)
     dataLabel = Label(dataFrame, text="Data folders available: ")
-    dataslot1Name = mainCfg.get("data", "slot1Name")
-    dataslot2Name = mainCfg.get("data", "slot2Name")
-    dataslot3Name = mainCfg.get("data", "slot3Name")
-    dataslot4Name = mainCfg.get("data", "slot4Name")
-    dataslot5Name = mainCfg.get("data", "slot5Name")
-    if mainCfg.get("data", "slotoriginal") == "<yes>":
+    dataslot1Name = cfg_main.get("data", "slot1Name")
+    dataslot2Name = cfg_main.get("data", "slot2Name")
+    dataslot3Name = cfg_main.get("data", "slot3Name")
+    dataslot4Name = cfg_main.get("data", "slot4Name")
+    dataslot5Name = cfg_main.get("data", "slot5Name")
+    if cfg_main.get("data", "slotoriginal") == "<yes>":
         originalDataName = "<Filled>"
     else:
         originalDataName = "<Empty>"
@@ -792,8 +796,8 @@ def mainprog():
     Data5.pack(padx=20, pady=1, anchor=W)
     DataOrigin.pack(padx=20, pady=1, anchor=W)
 
-    mainwin.config(menu=menubar)
-    mainwin.mainloop()
+    main_win.config(menu=menubar)
+    main_win.mainloop()
 
 
 mainprog()
