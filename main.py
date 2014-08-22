@@ -92,14 +92,25 @@ class M(object):
             taskfail = 1
 
         try:
+            print "Getting Data variable"
             data_slot = str(DataVar.get())
+            print data_slot
+            print ""
+            fail=""
             if data_slot == "0":
-                raise Exception("Invalid Data Slot")
-            elif int(data_slot) < 0 or int(data_slot) > 5:
-                pass
+                fail="Fail1"
+                raise Exception("ERROR 1 Invalid Data Slot")
+            elif int(data_slot) > 0:
+                if int(data_slot) < 6:
+                    print "Slot 1-5 specified"
+                else:
+                    fail="Fail2"
+                    raise Exception("ERROR 2 Invalid Data Slot")
             elif data_slot == "6":
+                print "It was slot 6"
                 data_slot = "original"
             else:
+                print fail
                 print "ERROR. The config file seems to be not configured correctly."
             dattostart = cfg_main.get("data", "slot" + data_slot)
             print "Data specified is in slot " + data_slot
@@ -134,6 +145,7 @@ class M(object):
                     shutil.copytree(home_dir + "\\AppData\\Roaming\\.minecraft",
                                     data_dir + "\\dataslots\\slot" + data_slot + "\\.minecraft")
                     shutil.rmtree(home_dir + "\\AppData\\Roaming\\.minecraft")
+                    print "Data sucessfully moved. Finished running."
 
     # # ----- SLOT SPECIFIC FUNCITONS.
     def addLauncherSlotSpec(self, launchnum):
@@ -419,7 +431,7 @@ class M(object):
             GRDmain.mainloop()
 
     def deleteDataSlotSpec(self, datanum):
-        self.empty
+        self.empty()
 
     # # END SLOT SPECIFIC FUNCTIONS.
 
@@ -584,15 +596,15 @@ class M(object):
             print "Launcher5 Loaded"
             print " All launchers loaded sucessfuly.\n\n Proceeding to load data slots."
 
-            data1 = cfg_main.get("data", "slot1Name")
+            data1 = cfg_main.get("data", "slot1")
             print "Dataslot1 Loaded."
-            data2 = cfg_main.get("data", "slot2Name")
+            data2 = cfg_main.get("data", "slot2")
             print "Dataslot2 Loaded."
-            data3 = cfg_main.get("data", "slot3Name")
+            data3 = cfg_main.get("data", "slot3")
             print "Dataslot3 Loaded."
-            data4 = cfg_main.get("data", "slot4Name")
+            data4 = cfg_main.get("data", "slot4")
             print "DataSlot4 Loaded."
-            data5 = cfg_main.get("data", "slot5Name")
+            data5 = cfg_main.get("data", "slot5")
             print "Dataslot5 Loaded.\n All dataslots sucessfuly loaded.\n\n"
         except:
             print "One or more config values was not found. " \
@@ -751,11 +763,11 @@ def mainprog():
 
     dataFrame = Frame(main_win)
     dataLabel = Label(dataFrame, text="Data folders available: ")
-    dataslot1Name = cfg_main.get("data", "slot1Name")
-    dataslot2Name = cfg_main.get("data", "slot2Name")
-    dataslot3Name = cfg_main.get("data", "slot3Name")
-    dataslot4Name = cfg_main.get("data", "slot4Name")
-    dataslot5Name = cfg_main.get("data", "slot5Name")
+    dataslot1Name = cfg_main.get("data", "slot1")
+    dataslot2Name = cfg_main.get("data", "slot2")
+    dataslot3Name = cfg_main.get("data", "slot3")
+    dataslot4Name = cfg_main.get("data", "slot4")
+    dataslot5Name = cfg_main.get("data", "slot5")
     if cfg_main.get("data", "slotoriginal") == "<yes>":
         originalDataName = "<Filled>"
     else:
